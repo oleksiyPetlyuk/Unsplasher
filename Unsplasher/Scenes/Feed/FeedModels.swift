@@ -24,10 +24,18 @@ extension Feed.FetchImages {
 }
 
 extension Feed.FetchImages.ViewModel {
+  struct DisplayedOwner {
+    let name: String
+    let avatarURL: URL
+  }
+}
+
+extension Feed.FetchImages.ViewModel {
   struct DisplayedImage: Hashable {
     private let uuid = UUID()
 
     let urls: Image.ImageURL
+    let owner: DisplayedOwner
 
     static func == (lhs: DisplayedImage, rhs: DisplayedImage) -> Bool {
       return lhs.uuid == rhs.uuid

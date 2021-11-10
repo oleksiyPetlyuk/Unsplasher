@@ -16,7 +16,12 @@ class FeedPresenter: FeedPresentationLogic {
 
   func presentFeed(response: Feed.FetchImages.Response) {
     let feed = response.feed.mapValues { images in
-      images.compactMap { Feed.FetchImages.ViewModel.DisplayedImage(urls: $0.urls) }
+      images.compactMap { image in
+        Feed.FetchImages.ViewModel.DisplayedImage(
+          urls: image.urls,
+          owner: Feed.FetchImages.ViewModel.DisplayedOwner(name: image.owner.name, avatarURL: image.owner.avatarURL)
+        )
+      }
     }
 
     let viewModel = Feed.FetchImages.ViewModel(feed: feed)
