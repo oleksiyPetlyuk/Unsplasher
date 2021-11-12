@@ -29,14 +29,19 @@ extension Image {
   struct Owner: Decodable {
     let name: String
     let avatarURL: URL
+    let profileURL: URL
 
     // swiftlint:disable nesting
     enum CodingKeys: String, CodingKey {
-      case name, profileImage = "profile_image"
+      case name, links, profileImage = "profile_image"
     }
 
     enum ProfileImageKeys: CodingKey {
       case medium
+    }
+
+    enum LinksKeys: CodingKey {
+      case html
     }
     // swiftlint:enable nesting
 
@@ -46,6 +51,9 @@ extension Image {
 
       let profileImageContainer = try container.nestedContainer(keyedBy: ProfileImageKeys.self, forKey: .profileImage)
       self.avatarURL = try profileImageContainer.decode(URL.self, forKey: .medium)
+
+      let linksContainer = try container.nestedContainer(keyedBy: LinksKeys.self, forKey: .links)
+      self.profileURL = try linksContainer.decode(URL.self, forKey: .html)
     }
   }
 }

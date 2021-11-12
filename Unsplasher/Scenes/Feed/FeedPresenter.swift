@@ -19,7 +19,7 @@ class FeedPresenter: FeedPresentationLogic {
       images.compactMap { image in
         Feed.FetchImages.ViewModel.DisplayedImage(
           urls: image.urls,
-          owner: Feed.FetchImages.ViewModel.DisplayedOwner(name: image.owner.name, avatarURL: image.owner.avatarURL)
+          owner: .init(name: image.owner.name, avatarURL: image.owner.avatarURL)
         )
       }
     }
