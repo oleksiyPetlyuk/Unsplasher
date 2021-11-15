@@ -8,48 +8,64 @@
 import UIKit
 
 protocol FeedDisplayLogic: AnyObject {
-  func displayFeed(viewModel: Feed.FetchImages.ViewModel)
+  func displayFeed(viewModel: Feed.FetchFeed.ViewModel)
+
+  func imageDidChange(response: Feed.UpdateImage.Response)
 }
 
 class FeedViewController: UIViewController, FeedDisplayLogic {
   static let sectionHeaderElementKind = "section-header-element-kind"
 
-  typealias DisplayedImage = Feed.FetchImages.ViewModel.DisplayedImage
+  typealias DisplayedImage = Feed.FetchFeed.ViewModel.DisplayedImage
 
   var interactor: FeedBusinessLogic?
   var router: (NSObjectProtocol & FeedRoutingLogic & FeedDataPassing)?
 
+  lazy private var doubleTapGesture: UITapGestureRecognizer = {
+    let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTapCollectionView))
+    doubleTapGesture.numberOfTapsRequired = 2
+    doubleTapGesture.delaysTouchesBegan = true
+
+    return doubleTapGesture
+  }()
+
   // MARK: - Data Source
 
-  lazy var dataSource: UICollectionViewDiffableDataSource<Topic, DisplayedImage> = {
-    let dataSource = UICollectionViewDiffableDataSource<Topic, DisplayedImage>(collectionView: collectionView) {
-      // swiftlint:disable:next closure_parameter_position
-      (collectionView: UICollectionView, indexPath: IndexPath, image: DisplayedImage) -> UICollectionViewCell? in
-      guard let cell = collectionView.dequeueReusableCell(
-        withReuseIdentifier: ImageCell.reuseIdentifer,
-        for: indexPath
-      ) as? ImageCell else {
-        fatalError("Could not create new cell")
-      }
-
+  lazy var dataSource: UICollectionViewDiffableDataSource<Topic, DisplayedImage.ID> = {
+    let cellRegistration = UICollectionView.CellRegistration<ImageCell, DisplayedImage> { cell, _, image in
       cell.configure(with: image)
-
-      return cell
     }
 
-    // swiftlint:disable:next line_length
-    dataSource.supplementaryViewProvider = {(collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView? in
-      guard let supplementaryView = collectionView.dequeueReusableSupplementaryView(
-        ofKind: kind,
-        withReuseIdentifier: HeaderView.reuseIdentifier,
-        for: indexPath
-      ) as? HeaderView else {
-        fatalError("Cannot create header view")
-      }
-
+    let headerRegistration = UICollectionView.SupplementaryRegistration<HeaderView>(
+      elementKind: FeedViewController.sectionHeaderElementKind
+    ) { supplementaryView, _, indexPath in
       supplementaryView.label.text = Topic.allCases[indexPath.section].description
+    }
 
-      return supplementaryView
+    let dataSource = UICollectionViewDiffableDataSource<Topic, DisplayedImage.ID>(
+      collectionView: collectionView
+    ) { [weak self] collectionView, indexPath, identifier -> UICollectionViewCell? in
+      guard let self = self else { return nil }
+
+      // `identifier` is an instance of `DisplayedImage.ID`. Use it to
+      // retrieve the recipe from the backing data store.
+      let response = self.interactor?.fetchImage(request: .init(id: identifier))
+
+      guard let image = response?.image else { return nil }
+
+      let displayedImage = DisplayedImage(
+        id: image.id,
+        urls: image.urls,
+        owner: .init(name: image.owner.name, avatarURL: image.owner.avatarURL),
+        isFavourite: image.isFavourite,
+        topic: image.topic
+      )
+
+      return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: displayedImage)
+    }
+
+    dataSource.supplementaryViewProvider = { _, _, indexPath in
+      return self.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
     }
 
     return dataSource
@@ -61,14 +77,6 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
     collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
     collectionView.backgroundColor = .systemBackground
     collectionView.delegate = self
-
-    collectionView.register(ImageCell.self, forCellWithReuseIdentifier: ImageCell.reuseIdentifer)
-
-    collectionView.register(
-      HeaderView.self,
-      forSupplementaryViewOfKind: FeedViewController.sectionHeaderElementKind,
-      withReuseIdentifier: HeaderView.reuseIdentifier
-    )
 
     return collectionView
   }()
@@ -94,6 +102,12 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
 
     navigationItem.title = "Feed"
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: nil)
+
+    collectionView.addGestureRecognizer(doubleTapGesture)
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
 
     fetchFeed()
   }
@@ -129,23 +143,53 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
   // MARK: - Fetch images
 
   func fetchFeed() {
-    let request = Feed.FetchImages.Request()
-    interactor?.fetchFeed(request: request)
+    interactor?.fetchFeed(request: .init())
   }
 
-  func displayFeed(viewModel: Feed.FetchImages.ViewModel) {
-    dataSource.apply(snapshot(for: viewModel.feed), animatingDifferences: true)
+  func displayFeed(viewModel: Feed.FetchFeed.ViewModel) {
+    dataSource.applySnapshotUsingReloadData(snapshot(for: viewModel.feed))
+  }
+
+  func imageDidChange(response: Feed.UpdateImage.Response) {
+    let image = response.image
+
+    // Confirm that the data source contains the image.
+    guard dataSource.indexPath(for: image.id) != nil else { return }
+
+    var snapshot = dataSource.snapshot()
+    snapshot.reconfigureItems([image.id])
+    dataSource.apply(snapshot, animatingDifferences: true)
+  }
+
+  // MARK: - Toggle favourite
+
+  @objc func didDoubleTapCollectionView() {
+    let pointInCollectionView = doubleTapGesture.location(in: collectionView)
+
+    if
+      let selectedIndexPath = collectionView.indexPathForItem(at: pointInCollectionView),
+      let imageId = dataSource.itemIdentifier(for: selectedIndexPath) {
+      interactor?.toggleFavouriteForImage(request: .init(id: imageId))
+    }
   }
 }
 
 extension FeedViewController {
-  func snapshot(for feed: [Topic: [DisplayedImage]]) -> NSDiffableDataSourceSnapshot<Topic, DisplayedImage> {
-    var snapshot = NSDiffableDataSourceSnapshot<Topic, DisplayedImage>()
+  func snapshot(for feed: [DisplayedImage]) -> NSDiffableDataSourceSnapshot<Topic, DisplayedImage.ID> {
+    var snapshot = dataSource.snapshot()
 
-    snapshot.appendSections(Topic.allCases)
+    for topic in Topic.allCases {
+      if snapshot.indexOfSection(topic) == nil {
+        snapshot.appendSections([topic])
+      }
+    }
 
-    feed.forEach { topic, images in
-      snapshot.appendItems(images, toSection: topic)
+    feed.forEach { image in
+      if snapshot.indexOfItem(image.id) == nil {
+        snapshot.appendItems([image.id], toSection: image.topic)
+      } else {
+        snapshot.reconfigureItems([image.id])
+      }
     }
 
     return snapshot

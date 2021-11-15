@@ -26,6 +26,7 @@ enum ShowImage {
       struct DisplayedImage {
         let urls: Image.ImageURL
         let owner: DispalyedOwner
+        let isFavourite: Bool
       }
 
       var displayedImage: DisplayedImage
@@ -33,6 +34,10 @@ enum ShowImage {
   }
 
   enum OpenImageOwnerProfile {
+    struct Request {}
+  }
+
+  enum UpdateImage {
     struct Request {}
   }
 }

@@ -73,6 +73,14 @@ class ShowImageViewController: UIViewController, ShowImageDisplayLogic {
   func displayImage(viewModel: ShowImage.GetImage.ViewModel) {
     let image = viewModel.displayedImage
 
+    let favouriteImageName = image.isFavourite ? "heart.fill" : "heart"
+    navigationItem.rightBarButtonItem = UIBarButtonItem(
+      image: .init(systemName: favouriteImageName),
+      style: .plain,
+      target: self,
+      action: #selector(toggleFavourite)
+    )
+
     imageView.kf.setImage(with: image.urls.regular)
 
     let plainAttributedString = NSMutableAttributedString(string: "From ")
@@ -97,5 +105,9 @@ class ShowImageViewController: UIViewController, ShowImageDisplayLogic {
 
   @objc func openOwnerProfile(_ sender: UITapGestureRecognizer) {
     interactor?.openImageOwnerProfile(request: .init())
+  }
+
+  @objc func toggleFavourite() {
+    interactor?.toggleFavourite(request: .init())
   }
 }

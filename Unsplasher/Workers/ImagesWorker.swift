@@ -18,8 +18,8 @@ class ImagesWorker {
     self.imagesStore = imagesStore
   }
 
-  func fetchFeedImages(completion: @escaping ([Topic: [Image]]) -> Void) {
-    var feed: [Topic: [Image]] = [:]
+  func fetchFeedImages(completion: @escaping ([Image]) -> Void) {
+    var feed: [Image] = []
     let group = DispatchGroup()
 
     for topic in Topic.allCases {
@@ -30,7 +30,7 @@ class ImagesWorker {
         case .failure(let error):
           print(error)
         case .success(let images):
-          feed[topic] = images
+          feed.append(contentsOf: images)
         }
 
         group.leave()

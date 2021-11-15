@@ -12,6 +12,8 @@ protocol ShowImageBusinessLogic {
   func getImage(request: ShowImage.GetImage.Request)
 
   func openImageOwnerProfile(request: ShowImage.OpenImageOwnerProfile.Request)
+
+  func toggleFavourite(request: ShowImage.UpdateImage.Request)
 }
 
 protocol ShowImageDataStore {
@@ -26,11 +28,15 @@ class ShowImageInteractor: ShowImageBusinessLogic, ShowImageDataStore {
   var image: Image!
 
   func getImage(request: ShowImage.GetImage.Request) {
-    let response = ShowImage.GetImage.Response(image: image)
-    presenter?.presentImage(response: response)
+    presenter?.presentImage(response: .init(image: image))
   }
 
   func openImageOwnerProfile(request: ShowImage.OpenImageOwnerProfile.Request) {
     UIApplication.shared.open(image.owner.profileURL)
+  }
+
+  func toggleFavourite(request: ShowImage.UpdateImage.Request) {
+    image.isFavourite.toggle()
+    presenter?.presentImage(response: .init(image: image))
   }
 }

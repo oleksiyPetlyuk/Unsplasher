@@ -14,12 +14,17 @@ class ImageCell: UICollectionViewCell {
   private let imageView = UIImageView()
   private let contentContainer = UIView()
   private let ownerImage = UIImageView()
+  private let isFavouriteImage = UIImageView()
 
-  func configure(with image: Feed.FetchImages.ViewModel.DisplayedImage) {
+  func configure(with image: Feed.FetchFeed.ViewModel.DisplayedImage) {
     contentContainer.translatesAutoresizingMaskIntoConstraints = false
 
     contentView.addSubview(imageView)
     contentView.addSubview(contentContainer)
+
+    isFavouriteImage.image = UIImage(systemName: "heart.fill")
+    isFavouriteImage.tintColor = .systemBackground
+    isFavouriteImage.isHidden = !image.isFavourite
 
     imageView.kf.setImage(with: image.urls.regular, options: [.transition(.fade(0.3))])
     imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -35,6 +40,9 @@ class ImageCell: UICollectionViewCell {
     ownerImage.clipsToBounds = true
     contentContainer.addSubview(ownerImage)
 
+    isFavouriteImage.translatesAutoresizingMaskIntoConstraints = false
+    contentContainer.addSubview(isFavouriteImage)
+
     NSLayoutConstraint.activate([
       contentContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       contentContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
@@ -49,7 +57,12 @@ class ImageCell: UICollectionViewCell {
       ownerImage.heightAnchor.constraint(equalToConstant: 30),
       ownerImage.widthAnchor.constraint(equalToConstant: 30),
       ownerImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-      ownerImage.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -10)
+      ownerImage.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -10),
+
+      isFavouriteImage.heightAnchor.constraint(equalToConstant: 30),
+      isFavouriteImage.widthAnchor.constraint(equalToConstant: 30),
+      isFavouriteImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+      isFavouriteImage.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 10)
     ])
   }
 }

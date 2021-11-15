@@ -58,14 +58,17 @@ class FeedRouter: NSObject, FeedRoutingLogic, FeedDataPassing {
   func passDataToShowImage(source: FeedDataStore, destination: inout ShowImageDataStore) {
     guard
       let selectedItemIndexPath = viewController?.collectionView.indexPathsForSelectedItems?.first,
+      let imageId = viewController?.dataSource.itemIdentifier(for: selectedItemIndexPath),
       let feed = source.feed else {
         return
       }
 
-    let topic = Topic.allCases[selectedItemIndexPath.section]
+    let image = feed.first { $0.id == imageId }
 
-    guard let images = feed[topic] else { return }
+    guard let image = image else {
+      return
+    }
 
-    destination.image = images[selectedItemIndexPath.row]
+    destination.image = image
   }
 }

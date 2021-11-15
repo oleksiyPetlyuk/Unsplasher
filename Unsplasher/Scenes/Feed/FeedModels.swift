@@ -7,42 +7,50 @@
 
 import Foundation
 
+// swiftlint:disable nesting
 enum Feed {
-  enum FetchImages {}
-}
+  enum FetchFeed {
+    struct Request {}
 
-extension Feed.FetchImages {
-  struct Request {}
-
-  struct Response {
-    let feed: [Topic: [Image]]
-  }
-
-  struct ViewModel {
-    let feed: [Topic: [DisplayedImage]]
-  }
-}
-
-extension Feed.FetchImages.ViewModel {
-  struct DisplayedOwner {
-    let name: String
-    let avatarURL: URL
-  }
-}
-
-extension Feed.FetchImages.ViewModel {
-  struct DisplayedImage: Hashable {
-    private let uuid = UUID()
-
-    let urls: Image.ImageURL
-    let owner: DisplayedOwner
-
-    static func == (lhs: DisplayedImage, rhs: DisplayedImage) -> Bool {
-      return lhs.uuid == rhs.uuid
+    struct Response {
+      let feed: [Image]
     }
 
-    func hash(into hasher: inout Hasher) {
-      hasher.combine(uuid)
+    struct ViewModel {
+      struct DisplayedOwner {
+        let name: String
+        let avatarURL: URL
+      }
+
+      struct DisplayedImage: Identifiable {
+        let id: Image.ID
+        let urls: Image.ImageURL
+        let owner: DisplayedOwner
+        let isFavourite: Bool
+        let topic: Topic
+      }
+
+      let feed: [DisplayedImage]
+    }
+  }
+
+  enum FetchImage {
+    struct Request {
+      let id: Image.ID
+    }
+
+    struct Response {
+      let image: Image?
+    }
+  }
+
+  enum UpdateImage {
+    struct Request {
+      let id: Image.ID
+    }
+
+    struct Response {
+      let image: Image
     }
   }
 }

@@ -7,13 +7,16 @@
 
 import Foundation
 
-struct Image: Decodable {
-  let id: String
+class Image: Identifiable, Decodable {
+  let id = UUID()
   let urls: ImageURL
   let owner: Owner
+  var isFavourite = false
+  // swiftlint:disable:next implicitly_unwrapped_optional
+  var topic: Topic!
 
   enum CodingKeys: String, CodingKey {
-    case id, urls, owner = "user"
+    case urls, owner = "user"
   }
 }
 

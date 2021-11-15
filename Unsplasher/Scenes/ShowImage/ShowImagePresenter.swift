@@ -18,7 +18,8 @@ class ShowImagePresenter: ShowImagePresentationLogic {
     let image = response.image
     let viewModel = ShowImage.GetImage.ViewModel(displayedImage: .init(
       urls: image.urls,
-      owner: .init(name: image.owner.name, avatarURL: image.owner.avatarURL, profileURL: image.owner.profileURL)
+      owner: .init(name: image.owner.name, avatarURL: image.owner.avatarURL, profileURL: image.owner.profileURL),
+      isFavourite: image.isFavourite
     ))
 
     viewController?.displayImage(viewModel: viewModel)
