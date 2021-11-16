@@ -8,11 +8,11 @@
 import Foundation
 
 protocol FeedBusinessLogic {
-  func fetchFeed(request: Feed.FetchFeed.Request)
+  func fetchFeed()
 
-  func toggleFavouriteForImage(request: Feed.UpdateImage.Request)
+  func toggleFavoriteForImage(request: ScenesModels.Image.Update.Request)
 
-  func fetchImage(request: Feed.FetchImage.Request) -> Feed.FetchImage.Response
+  func fetchImage(request: ScenesModels.Image.Fetch.Request) -> ScenesModels.Image.Fetch.Response
 }
 
 protocol FeedDataStore {
@@ -22,10 +22,10 @@ protocol FeedDataStore {
 class FeedInteractor: FeedBusinessLogic, FeedDataStore {
   var presenter: FeedPresentationLogic?
 
-  var imagesWorker = ImagesWorker(imagesStore: ImagesStore())
+  var imagesWorker = ImagesWorker(imagesStore: imagesStore)
   var feed: [Image]?
 
-  func fetchFeed(request: Feed.FetchFeed.Request) {
+  func fetchFeed() {
     imagesWorker.fetchFeedImages { [weak self] feed in
       guard let self = self else { return }
 
@@ -35,7 +35,7 @@ class FeedInteractor: FeedBusinessLogic, FeedDataStore {
     }
   }
 
-  func toggleFavouriteForImage(request: Feed.UpdateImage.Request) {
+  func toggleFavoriteForImage(request: ScenesModels.Image.Update.Request) {
     guard let feed = feed else { return }
 
     let image = feed.first { $0.id == request.id }
@@ -44,12 +44,12 @@ class FeedInteractor: FeedBusinessLogic, FeedDataStore {
       return
     }
 
-    image.isFavourite.toggle()
+    image.isFavorite.toggle()
 
     presenter?.imageDidChange(response: .init(image: image))
   }
 
-  func fetchImage(request: Feed.FetchImage.Request) -> Feed.FetchImage.Response {
+  func fetchImage(request: ScenesModels.Image.Fetch.Request) -> ScenesModels.Image.Fetch.Response {
     guard let feed = feed else {
       return .init(image: nil)
     }

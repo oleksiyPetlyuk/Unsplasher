@@ -35,10 +35,17 @@
 		FA711994273BCADC008EABB7 /* Unsplash+textures-patterns.json in Resources */ = {isa = PBXBuildFile; fileRef = FA711993273BCADC008EABB7 /* Unsplash+textures-patterns.json */; };
 		FA711996273BCB02008EABB7 /* Unsplash+animals.json in Resources */ = {isa = PBXBuildFile; fileRef = FA711995273BCB02008EABB7 /* Unsplash+animals.json */; };
 		FA711999273D2A53008EABB7 /* ShowImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA711998273D2A53008EABB7 /* ShowImageViewController.swift */; };
-		FA71199B273D2A8F008EABB7 /* ShowImageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA71199A273D2A8F008EABB7 /* ShowImageModels.swift */; };
 		FA71199D273D2A9F008EABB7 /* ShowImageInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA71199C273D2A9F008EABB7 /* ShowImageInteractor.swift */; };
 		FA71199F273D2AAA008EABB7 /* ShowImagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA71199E273D2AAA008EABB7 /* ShowImagePresenter.swift */; };
 		FA7119A1273D2AB7008EABB7 /* ShowImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119A0273D2AB7008EABB7 /* ShowImageRouter.swift */; };
+		FA7119A42742DCCC008EABB7 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119A32742DCCC008EABB7 /* FavoritesViewController.swift */; };
+		FA7119A62742DCFB008EABB7 /* FavoritesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119A52742DCFB008EABB7 /* FavoritesInteractor.swift */; };
+		FA7119A82742DD06008EABB7 /* FavoritesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119A72742DD06008EABB7 /* FavoritesPresenter.swift */; };
+		FA7119AA2742DD11008EABB7 /* FavoritesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119A92742DD11008EABB7 /* FavoritesModels.swift */; };
+		FA7119AC2742DD21008EABB7 /* FavoritesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119AB2742DD21008EABB7 /* FavoritesRouter.swift */; };
+		FA7119AE2742DF99008EABB7 /* LayoutProvider.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119AD2742DF99008EABB7 /* LayoutProvider.swift.swift */; };
+		FA7119B02743B4B4008EABB7 /* ScenesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119AF2743B4B4008EABB7 /* ScenesModels.swift */; };
+		FA7119B22743F62F008EABB7 /* FavoritableImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119B12743F62F008EABB7 /* FavoritableImageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,10 +97,17 @@
 		FA711993273BCADC008EABB7 /* Unsplash+textures-patterns.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Unsplash+textures-patterns.json"; sourceTree = "<group>"; };
 		FA711995273BCB02008EABB7 /* Unsplash+animals.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Unsplash+animals.json"; sourceTree = "<group>"; };
 		FA711998273D2A53008EABB7 /* ShowImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowImageViewController.swift; sourceTree = "<group>"; };
-		FA71199A273D2A8F008EABB7 /* ShowImageModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowImageModels.swift; sourceTree = "<group>"; };
 		FA71199C273D2A9F008EABB7 /* ShowImageInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowImageInteractor.swift; sourceTree = "<group>"; };
 		FA71199E273D2AAA008EABB7 /* ShowImagePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowImagePresenter.swift; sourceTree = "<group>"; };
 		FA7119A0273D2AB7008EABB7 /* ShowImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowImageRouter.swift; sourceTree = "<group>"; };
+		FA7119A32742DCCC008EABB7 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
+		FA7119A52742DCFB008EABB7 /* FavoritesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesInteractor.swift; sourceTree = "<group>"; };
+		FA7119A72742DD06008EABB7 /* FavoritesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesPresenter.swift; sourceTree = "<group>"; };
+		FA7119A92742DD11008EABB7 /* FavoritesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesModels.swift; sourceTree = "<group>"; };
+		FA7119AB2742DD21008EABB7 /* FavoritesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesRouter.swift; sourceTree = "<group>"; };
+		FA7119AD2742DF99008EABB7 /* LayoutProvider.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutProvider.swift.swift; sourceTree = "<group>"; };
+		FA7119AF2743B4B4008EABB7 /* ScenesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenesModels.swift; sourceTree = "<group>"; };
+		FA7119B12743F62F008EABB7 /* FavoritableImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritableImageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +215,8 @@
 			children = (
 				FA711970273A9359008EABB7 /* Feed */,
 				FA711997273D2A2F008EABB7 /* ShowImage */,
+				FA7119A22742DBCE008EABB7 /* Favorites */,
+				FA7119AF2743B4B4008EABB7 /* ScenesModels.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -208,7 +224,6 @@
 		FA711970273A9359008EABB7 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
-				FA711989273AC082008EABB7 /* Views */,
 				FA711971273A93A9008EABB7 /* FeedViewController.swift */,
 				FA711973273A9443008EABB7 /* FeedInteractor.swift */,
 				FA711975273A9460008EABB7 /* FeedPresenter.swift */,
@@ -224,6 +239,7 @@
 				FA71198C273BC9CF008EABB7 /* DefaultResponses */,
 				FA7119632732E805008EABB7 /* Unsplash.swift */,
 				FA71197E273A967D008EABB7 /* ImagesStore.swift */,
+				FA7119AD2742DF99008EABB7 /* LayoutProvider.swift.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -239,15 +255,9 @@
 		FA711988273AC058008EABB7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				FA71196B27343437008EABB7 /* HeaderView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		FA711989273AC082008EABB7 /* Views */ = {
-			isa = PBXGroup;
-			children = (
 				FA71196D27343B44008EABB7 /* ImageCell.swift */,
+				FA7119B12743F62F008EABB7 /* FavoritableImageCell.swift */,
+				FA71196B27343437008EABB7 /* HeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -270,10 +280,21 @@
 				FA711998273D2A53008EABB7 /* ShowImageViewController.swift */,
 				FA71199C273D2A9F008EABB7 /* ShowImageInteractor.swift */,
 				FA71199E273D2AAA008EABB7 /* ShowImagePresenter.swift */,
-				FA71199A273D2A8F008EABB7 /* ShowImageModels.swift */,
 				FA7119A0273D2AB7008EABB7 /* ShowImageRouter.swift */,
 			);
 			path = ShowImage;
+			sourceTree = "<group>";
+		};
+		FA7119A22742DBCE008EABB7 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				FA7119A32742DCCC008EABB7 /* FavoritesViewController.swift */,
+				FA7119A52742DCFB008EABB7 /* FavoritesInteractor.swift */,
+				FA7119A72742DD06008EABB7 /* FavoritesPresenter.swift */,
+				FA7119A92742DD11008EABB7 /* FavoritesModels.swift */,
+				FA7119AB2742DD21008EABB7 /* FavoritesRouter.swift */,
+			);
+			path = Favorites;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -442,24 +463,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA7119612732E53C008EABB7 /* Image.swift in Sources */,
+				FA7119B22743F62F008EABB7 /* FavoritableImageCell.swift in Sources */,
 				FA71199D273D2A9F008EABB7 /* ShowImageInteractor.swift in Sources */,
 				FA7119272731682F008EABB7 /* AppDelegate.swift in Sources */,
+				FA7119AE2742DF99008EABB7 /* LayoutProvider.swift.swift in Sources */,
 				FA711972273A93A9008EABB7 /* FeedViewController.swift in Sources */,
 				FA7119642732E805008EABB7 /* Unsplash.swift in Sources */,
 				FA7119A1273D2AB7008EABB7 /* ShowImageRouter.swift in Sources */,
 				FA711999273D2A53008EABB7 /* ShowImageViewController.swift in Sources */,
+				FA7119B02743B4B4008EABB7 /* ScenesModels.swift in Sources */,
 				FA711984273AAA9E008EABB7 /* FeedModels.swift in Sources */,
 				FA71197F273A967D008EABB7 /* ImagesStore.swift in Sources */,
+				FA7119A62742DCFB008EABB7 /* FavoritesInteractor.swift in Sources */,
 				FA71196E27343B44008EABB7 /* ImageCell.swift in Sources */,
-				FA71199B273D2A8F008EABB7 /* ShowImageModels.swift in Sources */,
+				FA7119AC2742DD21008EABB7 /* FavoritesRouter.swift in Sources */,
 				FA71197A273A9488008EABB7 /* FeedRouter.swift in Sources */,
 				FA711987273AAF12008EABB7 /* ImagesWorker.swift in Sources */,
+				FA7119A82742DD06008EABB7 /* FavoritesPresenter.swift in Sources */,
 				FA7119292731682F008EABB7 /* SceneDelegate.swift in Sources */,
 				FA71199F273D2AAA008EABB7 /* ShowImagePresenter.swift in Sources */,
 				FA71196C27343437008EABB7 /* HeaderView.swift in Sources */,
 				FA711974273A9443008EABB7 /* FeedInteractor.swift in Sources */,
 				FA711976273A9460008EABB7 /* FeedPresenter.swift in Sources */,
+				FA7119A42742DCCC008EABB7 /* FavoritesViewController.swift in Sources */,
 				FA71198B273AE2B4008EABB7 /* Topic.swift in Sources */,
+				FA7119AA2742DD11008EABB7 /* FavoritesModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

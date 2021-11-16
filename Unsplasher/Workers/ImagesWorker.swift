@@ -9,6 +9,10 @@ import Foundation
 
 protocol ImagesStoreProtocol {
   func fetchImages(from topic: Topic, completion: @escaping (Result<[Image], Error>) -> Void)
+
+  func fetchFavorites(completion: @escaping (Result<[Image], Error>) -> Void)
+
+  func fetchImage(with id: Image.ID, completion: @escaping (Result<Image?, Error>) -> Void)
 }
 
 class ImagesWorker {
@@ -39,6 +43,28 @@ class ImagesWorker {
 
     group.notify(queue: .main) {
       completion(feed)
+    }
+  }
+
+  func fetchFavoriteImages(completion: @escaping ([Image]) -> Void) {
+    imagesStore.fetchFavorites { result in
+      switch result {
+      case .failure(let error):
+        print(error)
+      case .success(let images):
+        completion(images)
+      }
+    }
+  }
+
+  func fetchImage(with id: Image.ID, completion: @escaping (Image?) -> Void) {
+    imagesStore.fetchImage(with: id) { result in
+      switch result {
+      case .failure(let error):
+        print(error)
+      case .success(let image):
+        completion(image)
+      }
     }
   }
 }

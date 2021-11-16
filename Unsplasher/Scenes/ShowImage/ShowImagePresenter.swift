@@ -8,20 +8,29 @@
 import Foundation
 
 protocol ShowImagePresentationLogic {
-  func presentImage(response: ShowImage.GetImage.Response)
+  func presentImage(response: ScenesModels.Image.Fetch.Response)
 }
 
 class ShowImagePresenter: ShowImagePresentationLogic {
   weak var viewController: ShowImageDisplayLogic?
 
-  func presentImage(response: ShowImage.GetImage.Response) {
-    let image = response.image
-    let viewModel = ShowImage.GetImage.ViewModel(displayedImage: .init(
-      urls: image.urls,
-      owner: .init(name: image.owner.name, avatarURL: image.owner.avatarURL, profileURL: image.owner.profileURL),
-      isFavourite: image.isFavourite
-    ))
+  func presentImage(response: ScenesModels.Image.Fetch.Response) {
+    guard let image = response.image else { return }
 
-    viewController?.displayImage(viewModel: viewModel)
+
+    let imageOwner = ScenesModels.DisplayedOwner(
+      name: image.owner.name,
+      avatarURL: image.owner.avatarURL,
+      profileURL: image.owner.profileURL
+    )
+    let displayedImage = ScenesModels.DisplayedImage(
+      id: image.id,
+      urls: image.urls,
+      owner: imageOwner,
+      isFavorite: image.isFavorite,
+      topic: image.topic
+    )
+
+    viewController?.displayImage(viewModel: .init(image: displayedImage))
   }
 }

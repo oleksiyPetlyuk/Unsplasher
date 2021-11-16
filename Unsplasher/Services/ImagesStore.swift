@@ -8,6 +8,8 @@
 import Foundation
 import Moya
 
+let imagesStore = ImagesStore()
+
 class ImagesStore: ImagesStoreProtocol {
   var allImages: [Image] = []
 
@@ -41,5 +43,17 @@ class ImagesStore: ImagesStoreProtocol {
         completion(.failure(error))
       }
     }
+  }
+
+  func fetchFavorites(completion: @escaping (Result<[Image], Error>) -> Void) {
+    let favorites = allImages.filter { $0.isFavorite }
+
+    completion(.success(favorites))
+  }
+
+  func fetchImage(with id: Image.ID, completion: @escaping (Result<Image?, Error>) -> Void) {
+    let image = allImages.first { $0.id == id }
+
+    completion(.success(image))
   }
 }

@@ -9,11 +9,11 @@ import Foundation
 import UIKit
 
 protocol ShowImageBusinessLogic {
-  func getImage(request: ShowImage.GetImage.Request)
+  func getImage(request: ScenesModels.Image.Fetch.Request?)
 
-  func openImageOwnerProfile(request: ShowImage.OpenImageOwnerProfile.Request)
+  func openImageOwnerProfile(request: ScenesModels.Image.Fetch.Request?)
 
-  func toggleFavourite(request: ShowImage.UpdateImage.Request)
+  func toggleFavorite(request: ScenesModels.Image.Update.Request?)
 }
 
 protocol ShowImageDataStore {
@@ -24,19 +24,52 @@ protocol ShowImageDataStore {
 class ShowImageInteractor: ShowImageBusinessLogic, ShowImageDataStore {
   var presenter: ShowImagePresentationLogic?
 
+  var imagesWorker = ImagesWorker(imagesStore: imagesStore)
+
   // swiftlint:disable:next implicitly_unwrapped_optional
   var image: Image!
 
-  func getImage(request: ShowImage.GetImage.Request) {
-    presenter?.presentImage(response: .init(image: image))
+  func getImage(request: ScenesModels.Image.Fetch.Request?) {
+    guard let request = request else {
+      presenter?.presentImage(response: .init(image: image))
+
+      return
+    }
+
+    imagesWorker.fetchImage(with: request.id) { [weak self] image in
+      guard let self = self else { return }
+
+      self.presenter?.presentImage(response: .init(image: image))
+    }
   }
 
-  func openImageOwnerProfile(request: ShowImage.OpenImageOwnerProfile.Request) {
-    UIApplication.shared.open(image.owner.profileURL)
+  func openImageOwnerProfile(request: ScenesModels.Image.Fetch.Request?) {
+    guard let request = request else {
+      UIApplication.shared.open(image.owner.profileURL)
+
+      return
+    }
+
+    imagesWorker.fetchImage(with: request.id) { image in
+      guard let image = image else { return }
+
+      UIApplication.shared.open(image.owner.profileURL)
+    }
   }
 
-  func toggleFavourite(request: ShowImage.UpdateImage.Request) {
-    image.isFavourite.toggle()
-    presenter?.presentImage(response: .init(image: image))
+  func toggleFavorite(request: ScenesModels.Image.Update.Request?) {
+    guard let request = request else {
+      image.isFavorite.toggle()
+      presenter?.presentImage(response: .init(image: image))
+
+      return
+    }
+
+    imagesWorker.fetchImage(with: request.id) { [weak self] image in
+      guard let self = self, let image = image else { return }
+
+      image.isFavorite.toggle()
+      self.presenter?.presentImage(response: .init(image: image))
+    }
   }
 }

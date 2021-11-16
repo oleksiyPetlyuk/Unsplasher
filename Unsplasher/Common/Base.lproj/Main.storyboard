@@ -19,7 +19,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="dvW-2V-E6F" kind="relationship" relationship="viewControllers" id="RsL-bN-71F"/>
-                        <segue destination="c1j-la-7W7" kind="relationship" relationship="viewControllers" id="Aus-NX-7Et"/>
+                        <segue destination="J1n-NS-Awx" kind="relationship" relationship="viewControllers" id="Aus-NX-7Et"/>
                         <segue destination="8Nz-5z-1nl" kind="relationship" relationship="viewControllers" id="fxD-GC-fSg"/>
                     </connections>
                 </tabBarController>
@@ -106,32 +106,26 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1kn-ey-Cab" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1569.5652173913045" y="-1006.4732142857142"/>
+            <point key="canvasLocation" x="1588" y="-663"/>
         </scene>
-        <!--Favorites-->
+        <!--Favorites View Controller-->
         <scene sceneID="aFa-dd-u68">
             <objects>
-                <viewController id="c1j-la-7W7" sceneMemberID="viewController">
+                <viewController id="c1j-la-7W7" customClass="FavoritesViewController" customModule="Unsplasher" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NIu-wI-0FT">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Favorites" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vOk-rt-bjI">
-                                <rect key="frame" x="173" y="438" width="69" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="k1R-Xs-14v"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Favorites" image="star.fill" catalog="system" id="WtJ-ti-nS2"/>
+                    <navigationItem key="navigationItem" id="7SK-QU-dQH"/>
+                    <connections>
+                        <segue destination="1Qc-io-XKd" kind="show" identifier="ShowImage" id="aqd-XW-ele"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2eL-rg-Qov" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-242" y="-281"/>
+            <point key="canvasLocation" x="668.11594202898561" y="-281.25"/>
         </scene>
         <!--Settings-->
         <scene sceneID="t91-W6-A39">
@@ -177,7 +171,29 @@
             </objects>
             <point key="canvasLocation" x="-242.0289855072464" y="-1006.4732142857142"/>
         </scene>
+        <!--Favorites-->
+        <scene sceneID="B9e-mX-XeY">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="J1n-NS-Awx" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Favorites" image="star.fill" catalog="system" id="WtJ-ti-nS2"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Rw8-Rf-d1P">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="c1j-la-7W7" kind="relationship" relationship="rootViewController" id="skc-Hl-qo4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pe3-Et-1Qc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-242.0289855072464" y="-281.25"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="aqd-XW-ele"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="gear" catalog="system" width="128" height="119"/>
         <image name="photo.fill.on.rectangle.fill" catalog="system" width="128" height="97"/>

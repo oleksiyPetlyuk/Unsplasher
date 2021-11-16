@@ -8,15 +8,15 @@
 import UIKit
 
 protocol FeedDisplayLogic: AnyObject {
-  func displayFeed(viewModel: Feed.FetchFeed.ViewModel)
+  func displayFeed(viewModel: Feed.Fetch.ViewModel)
 
-  func imageDidChange(response: Feed.UpdateImage.Response)
+  func imageDidChange(response: ScenesModels.Image.Update.Response)
 }
 
 class FeedViewController: UIViewController, FeedDisplayLogic {
   static let sectionHeaderElementKind = "section-header-element-kind"
 
-  typealias DisplayedImage = Feed.FetchFeed.ViewModel.DisplayedImage
+  typealias DisplayedImage = ScenesModels.DisplayedImage
 
   var interactor: FeedBusinessLogic?
   var router: (NSObjectProtocol & FeedRoutingLogic & FeedDataPassing)?
@@ -32,7 +32,7 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
   // MARK: - Data Source
 
   lazy var dataSource: UICollectionViewDiffableDataSource<Topic, DisplayedImage.ID> = {
-    let cellRegistration = UICollectionView.CellRegistration<ImageCell, DisplayedImage> { cell, _, image in
+    let cellRegistration = UICollectionView.CellRegistration<FavoritableImageCell, DisplayedImage> { cell, _, image in
       cell.configure(with: image)
     }
 
@@ -56,16 +56,16 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
       let displayedImage = DisplayedImage(
         id: image.id,
         urls: image.urls,
-        owner: .init(name: image.owner.name, avatarURL: image.owner.avatarURL),
-        isFavourite: image.isFavourite,
+        owner: .init(name: image.owner.name, avatarURL: image.owner.avatarURL, profileURL: image.owner.profileURL),
+        isFavorite: image.isFavorite,
         topic: image.topic
       )
 
       return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: displayedImage)
     }
 
-    dataSource.supplementaryViewProvider = { _, _, indexPath in
-      return self.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
+    dataSource.supplementaryViewProvider = { [weak self] _, _, indexPath in
+      return self?.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: indexPath)
     }
 
     return dataSource
@@ -143,14 +143,14 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
   // MARK: - Fetch images
 
   func fetchFeed() {
-    interactor?.fetchFeed(request: .init())
+    interactor?.fetchFeed()
   }
 
-  func displayFeed(viewModel: Feed.FetchFeed.ViewModel) {
+  func displayFeed(viewModel: Feed.Fetch.ViewModel) {
     dataSource.applySnapshotUsingReloadData(snapshot(for: viewModel.feed))
   }
 
-  func imageDidChange(response: Feed.UpdateImage.Response) {
+  func imageDidChange(response: ScenesModels.Image.Update.Response) {
     let image = response.image
 
     // Confirm that the data source contains the image.
@@ -161,7 +161,7 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
     dataSource.apply(snapshot, animatingDifferences: true)
   }
 
-  // MARK: - Toggle favourite
+  // MARK: - Toggle favorite
 
   @objc func didDoubleTapCollectionView() {
     let pointInCollectionView = doubleTapGesture.location(in: collectionView)
@@ -169,7 +169,7 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
     if
       let selectedIndexPath = collectionView.indexPathForItem(at: pointInCollectionView),
       let imageId = dataSource.itemIdentifier(for: selectedIndexPath) {
-      interactor?.toggleFavouriteForImage(request: .init(id: imageId))
+      interactor?.toggleFavoriteForImage(request: .init(id: imageId))
     }
   }
 }
@@ -196,117 +196,25 @@ extension FeedViewController {
   }
 
   func generateLayout() -> UICollectionViewLayout {
-    let layout = UICollectionViewCompositionalLayout {
-      // swiftlint:disable:next closure_parameter_position
-      (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+    let layout = UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
       let isWideView = layoutEnvironment.container.effectiveContentSize.width > 500
 
       let sectionLayoutKind = Topic.allCases[sectionIndex]
 
       switch sectionLayoutKind {
-      case .wallpapers, .animals: return self.generateFullWidthLayout(isWide: isWideView)
-      case .nature, .textures: return self.generateThirdWidthLayout()
-      case .architecture: return self.generateGridLayout(isWide: isWideView)
+      case .wallpapers, .animals:
+        return layoutProvider.fullWidthLayout(
+          isWide: isWideView,
+          supplementaryElementKind: Self.sectionHeaderElementKind
+        )
+      case .nature, .textures:
+        return layoutProvider.thirdWidthLayout(supplementaryElementKind: Self.sectionHeaderElementKind)
+      case .architecture:
+        return layoutProvider.gridLayout(isWide: isWideView, supplementaryElementKind: Self.sectionHeaderElementKind)
       }
     }
 
     return layout
-  }
-
-  func generateFullWidthLayout(isWide: Bool) -> NSCollectionLayoutSection {
-    let itemSize = NSCollectionLayoutSize(
-      widthDimension: .fractionalWidth(1.0),
-      heightDimension: .fractionalWidth(2 / 3)
-    )
-    let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-    // Show one item plus peek on narrow screens, two items plus peek on wider screens
-    let groupFractionalWidth = isWide ? 0.475 : 0.95
-    let groupFractionalHeight: Float = isWide ? 1 / 3 : 2 / 3
-    let groupSize = NSCollectionLayoutSize(
-      widthDimension: .fractionalWidth(CGFloat(groupFractionalWidth)),
-      heightDimension: .fractionalWidth(CGFloat(groupFractionalHeight))
-    )
-    let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 1)
-    group.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-
-    let headerSize = NSCollectionLayoutSize(
-      widthDimension: .fractionalWidth(1.0),
-      heightDimension: .estimated(44)
-    )
-    let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-      layoutSize: headerSize,
-      elementKind: FeedViewController.sectionHeaderElementKind,
-      alignment: .top
-    )
-
-    let section = NSCollectionLayoutSection(group: group)
-    section.boundarySupplementaryItems = [sectionHeader]
-    section.orthogonalScrollingBehavior = .groupPaging
-
-    return section
-  }
-
-  func generateThirdWidthLayout() -> NSCollectionLayoutSection {
-    let itemSize = NSCollectionLayoutSize(
-      widthDimension: .fractionalWidth(1.0),
-      heightDimension: .fractionalWidth(1.0)
-    )
-    let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-    let groupSize = NSCollectionLayoutSize(
-      widthDimension: .absolute(140),
-      heightDimension: .absolute(186)
-    )
-    let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitem: item, count: 1)
-    group.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-
-    let headerSize = NSCollectionLayoutSize(
-      widthDimension: .fractionalWidth(1.0),
-      heightDimension: .estimated(44)
-    )
-    let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-      layoutSize: headerSize,
-      elementKind: FeedViewController.sectionHeaderElementKind,
-      alignment: .top
-    )
-
-    let section = NSCollectionLayoutSection(group: group)
-    section.boundarySupplementaryItems = [sectionHeader]
-    section.orthogonalScrollingBehavior = .groupPaging
-
-    return section
-  }
-
-  func generateGridLayout(isWide: Bool) -> NSCollectionLayoutSection {
-    let itemSize = NSCollectionLayoutSize(
-      widthDimension: .fractionalWidth(1.0),
-      heightDimension: .fractionalHeight(1.0)
-    )
-    let item = NSCollectionLayoutItem(layoutSize: itemSize)
-    item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
-
-    let groupHeight = NSCollectionLayoutDimension.fractionalWidth(isWide ? 0.25 : 0.5)
-    let groupSize = NSCollectionLayoutSize(
-      widthDimension: .fractionalWidth(1.0),
-      heightDimension: groupHeight
-    )
-    let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: isWide ? 4 : 2)
-
-    let headerSize = NSCollectionLayoutSize(
-      widthDimension: .fractionalWidth(1.0),
-      heightDimension: .estimated(44)
-    )
-    let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-      layoutSize: headerSize,
-      elementKind: FeedViewController.sectionHeaderElementKind,
-      alignment: .top
-    )
-
-    let section = NSCollectionLayoutSection(group: group)
-    section.boundarySupplementaryItems = [sectionHeader]
-
-    return section
   }
 }
 

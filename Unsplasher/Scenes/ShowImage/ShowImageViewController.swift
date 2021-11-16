@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 
 protocol ShowImageDisplayLogic: AnyObject {
-  func displayImage(viewModel: ShowImage.GetImage.ViewModel)
+  func displayImage(viewModel: ScenesModels.Image.ViewModel)
 }
 
 class ShowImageViewController: UIViewController, ShowImageDisplayLogic {
@@ -66,19 +66,18 @@ class ShowImageViewController: UIViewController, ShowImageDisplayLogic {
   // MARK: - Get image
 
   func getImage() {
-    let request = ShowImage.GetImage.Request()
-    interactor?.getImage(request: request)
+    interactor?.getImage(request: nil)
   }
 
-  func displayImage(viewModel: ShowImage.GetImage.ViewModel) {
-    let image = viewModel.displayedImage
+  func displayImage(viewModel: ScenesModels.Image.ViewModel) {
+    let image = viewModel.image
 
-    let favouriteImageName = image.isFavourite ? "heart.fill" : "heart"
+    let favoriteImageName = image.isFavorite ? "heart.fill" : "heart"
     navigationItem.rightBarButtonItem = UIBarButtonItem(
-      image: .init(systemName: favouriteImageName),
+      image: .init(systemName: favoriteImageName),
       style: .plain,
       target: self,
-      action: #selector(toggleFavourite)
+      action: #selector(toggleFavorite)
     )
 
     imageView.kf.setImage(with: image.urls.regular)
@@ -104,10 +103,10 @@ class ShowImageViewController: UIViewController, ShowImageDisplayLogic {
   }
 
   @objc func openOwnerProfile(_ sender: UITapGestureRecognizer) {
-    interactor?.openImageOwnerProfile(request: .init())
+    interactor?.openImageOwnerProfile(request: nil)
   }
 
-  @objc func toggleFavourite() {
-    interactor?.toggleFavourite(request: .init())
+  @objc func toggleFavorite() {
+    interactor?.toggleFavorite(request: nil)
   }
 }

@@ -8,8 +8,6 @@
 import UIKit
 
 class HeaderView: UICollectionReusableView {
-  static let reuseIdentifier = "header-reuse-identifier"
-
   let label = UILabel()
 
   override init(frame: CGRect) {

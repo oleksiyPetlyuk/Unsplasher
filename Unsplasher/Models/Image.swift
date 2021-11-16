@@ -11,7 +11,7 @@ class Image: Identifiable, Decodable {
   let id = UUID()
   let urls: ImageURL
   let owner: Owner
-  var isFavourite = false
+  var isFavorite = false
   // swiftlint:disable:next implicitly_unwrapped_optional
   var topic: Topic!
 
