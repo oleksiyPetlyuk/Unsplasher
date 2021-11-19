@@ -9,28 +9,32 @@ import Foundation
 
 protocol FeedPresentationLogic {
   func presentFeed(response: Feed.Fetch.Response)
-
-  func imageDidChange(response: ScenesModels.Image.Update.Response)
 }
 
 class FeedPresenter: FeedPresentationLogic {
   weak var viewController: FeedDisplayLogic?
 
   func presentFeed(response: Feed.Fetch.Response) {
-    let feed = response.feed.compactMap { image in
-      ScenesModels.DisplayedImage(
+    let feed: [ScenesModels.DisplayedImage] = response.feed.compactMap { image in
+      var displayedOwner: ScenesModels.DisplayedImageOwner?
+
+      if let owner = image.owner {
+        displayedOwner = ScenesModels.DisplayedImageOwner(
+          name: owner.name,
+          avatar: owner.avatarURL,
+          unsplashProfile: owner.unsplashProfileURL
+        )
+      }
+
+      return ScenesModels.DisplayedImage(
         id: image.id,
         urls: image.urls,
-        owner: .init(name: image.owner.name, avatarURL: image.owner.avatarURL, profileURL: image.owner.profileURL),
+        owner: displayedOwner,
         isFavorite: image.isFavorite,
         topic: image.topic
       )
     }
 
     viewController?.displayFeed(viewModel: .init(feed: feed))
-  }
-
-  func imageDidChange(response: ScenesModels.Image.Update.Response) {
-    viewController?.imageDidChange(response: response)
   }
 }

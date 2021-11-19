@@ -58,17 +58,10 @@ class FavoritesRouter: NSObject, FavoritesRoutingLogic, FavoritesDataPassing {
   func passDataToShowImage(source: FavoritesDataStore, destination: inout ShowImageDataStore) {
     guard
       let selectedItemIndexPath = viewController?.collectionView.indexPathsForSelectedItems?.first,
-      let imageId = viewController?.dataSource.itemIdentifier(for: selectedItemIndexPath),
-      let images = source.images else {
+      let imageID = viewController?.dataSource.itemIdentifier(for: selectedItemIndexPath) else {
         return
       }
 
-    let image = images.first { $0.id == imageId }
-
-    guard let image = image else {
-      return
-    }
-
-    destination.image = image
+    destination.imageID = imageID
   }
 }

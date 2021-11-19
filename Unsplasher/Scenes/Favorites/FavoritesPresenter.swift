@@ -15,11 +15,21 @@ class FavoritesPresenter: FavoritesPresentationLogic {
   weak var viewController: FavoritesDisplayLogic?
 
   func presentFavorites(response: Favorites.Fetch.Response) {
-    let favorites = response.images.compactMap { image in
-      ScenesModels.DisplayedImage(
+    let favorites: [ScenesModels.DisplayedImage] = response.images.compactMap { image in
+      var displayedOwner: ScenesModels.DisplayedImageOwner?
+
+      if let owner = image.owner {
+        displayedOwner = ScenesModels.DisplayedImageOwner(
+          name: owner.name,
+          avatar: owner.avatarURL,
+          unsplashProfile: owner.unsplashProfileURL
+        )
+      }
+
+      return ScenesModels.DisplayedImage(
         id: image.id,
         urls: image.urls,
-        owner: .init(name: image.owner.name, avatarURL: image.owner.avatarURL, profileURL: image.owner.profileURL),
+        owner: displayedOwner,
         isFavorite: image.isFavorite,
         topic: image.topic
       )

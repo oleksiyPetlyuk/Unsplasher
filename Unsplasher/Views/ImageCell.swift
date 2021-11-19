@@ -19,19 +19,23 @@ class ImageCell: UICollectionViewCell {
     contentView.addSubview(imageView)
     contentView.addSubview(contentContainer)
 
-    imageView.kf.setImage(with: image.urls.regular, options: [.transition(.fade(0.3))])
+    imageView.kf.setImage(with: image.urls?.regularURL, options: [.transition(.fade(0.3))])
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.layer.cornerRadius = 4
     imageView.clipsToBounds = true
     contentContainer.addSubview(imageView)
 
     ownerImage.translatesAutoresizingMaskIntoConstraints = false
-    ownerImage.kf.setImage(with: image.owner.avatarURL, options: [.transition(.fade(0.3))])
+    ownerImage.kf.setImage(with: image.owner?.avatar, options: [.transition(.fade(0.3))])
     ownerImage.layer.cornerRadius = 15
     ownerImage.layer.borderColor = UIColor.systemBackground.cgColor
     ownerImage.layer.borderWidth = 1
     ownerImage.clipsToBounds = true
     contentContainer.addSubview(ownerImage)
+
+    if image.owner == nil {
+      ownerImage.isHidden = true
+    }
 
     NSLayoutConstraint.activate([
       contentContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),

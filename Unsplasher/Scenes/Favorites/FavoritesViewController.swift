@@ -33,16 +33,35 @@ class FavoritesViewController: UIViewController, FavoritesDisplayLogic {
     ) { [weak self] collectionView, indexPath, identifier -> UICollectionViewCell? in
       guard let self = self else { return nil }
 
+      let semaphore = DispatchSemaphore(value: 0)
+      var image: Image?
+
       // `identifier` is an instance of `DisplayedImage.ID`. Use it to
       // retrieve the recipe from the backing data store.
-      let response = self.interactor?.fetchImage(request: .init(id: identifier))
+      self.interactor?.fetchImage(request: .init(id: identifier)) { response in
+        image = response.image
 
-      guard let image = response?.image else { return nil }
+        semaphore.signal()
+      }
+
+      semaphore.wait()
+
+      guard let image = image else { return nil }
+
+      var displayedOwner: ScenesModels.DisplayedImageOwner?
+
+      if let owner = image.owner {
+        let displayedOwner = ScenesModels.DisplayedImageOwner(
+          name: owner.name,
+          avatar: owner.avatarURL,
+          unsplashProfile: owner.unsplashProfileURL
+        )
+      }
 
       let displayedImage = DisplayedImage(
         id: image.id,
         urls: image.urls,
-        owner: .init(name: image.owner.name, avatarURL: image.owner.avatarURL, profileURL: image.owner.profileURL),
+        owner: displayedOwner,
         isFavorite: image.isFavorite,
         topic: image.topic
       )

@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import RealmSwift
 
-enum Topic: String, CaseIterable, CustomStringConvertible {
+enum Topic: String, CaseIterable, CustomStringConvertible, PersistableEnum {
   case wallpapers = "wallpapers"
   case nature = "nature"
   case architecture = "architecture"

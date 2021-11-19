@@ -9,18 +9,18 @@ import Foundation
 
 // swiftlint:disable nesting
 enum ScenesModels {
-  struct DisplayedOwner {
+  struct DisplayedImageOwner {
     let name: String
-    let avatarURL: URL
-    let profileURL: URL
+    let avatar: URL?
+    let unsplashProfile: URL?
   }
 
   struct DisplayedImage: Identifiable {
     let id: Unsplasher.Image.ID
-    let urls: Unsplasher.Image.ImageURL
-    let owner: DisplayedOwner
+    let urls: ImageURLs?
+    let owner: DisplayedImageOwner?
     let isFavorite: Bool
-    let topic: Topic
+    let topic: Topic?
   }
 
   enum Image {

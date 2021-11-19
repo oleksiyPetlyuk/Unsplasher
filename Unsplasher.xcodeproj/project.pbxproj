@@ -46,6 +46,10 @@
 		FA7119AE2742DF99008EABB7 /* LayoutProvider.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119AD2742DF99008EABB7 /* LayoutProvider.swift.swift */; };
 		FA7119B02743B4B4008EABB7 /* ScenesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119AF2743B4B4008EABB7 /* ScenesModels.swift */; };
 		FA7119B22743F62F008EABB7 /* FavoritableImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119B12743F62F008EABB7 /* FavoritableImageCell.swift */; };
+		FA8BB4D527440C0F00CB95DA /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = FA8BB4D427440C0F00CB95DA /* Realm */; };
+		FA8BB4D727440C0F00CB95DA /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FA8BB4D627440C0F00CB95DA /* RealmSwift */; };
+		FA8BB4DC274521CE00CB95DA /* ImageURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BB4DB274521CE00CB95DA /* ImageURLs.swift */; };
+		FA8BB4DE2745220700CB95DA /* ImageOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BB4DD2745220700CB95DA /* ImageOwner.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +112,8 @@
 		FA7119AD2742DF99008EABB7 /* LayoutProvider.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutProvider.swift.swift; sourceTree = "<group>"; };
 		FA7119AF2743B4B4008EABB7 /* ScenesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenesModels.swift; sourceTree = "<group>"; };
 		FA7119B12743F62F008EABB7 /* FavoritableImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritableImageCell.swift; sourceTree = "<group>"; };
+		FA8BB4DB274521CE00CB95DA /* ImageURLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageURLs.swift; sourceTree = "<group>"; };
+		FA8BB4DD2745220700CB95DA /* ImageOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOwner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +121,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA8BB4D727440C0F00CB95DA /* RealmSwift in Frameworks */,
+				FA8BB4D527440C0F00CB95DA /* Realm in Frameworks */,
 				FA71195E2731761C008EABB7 /* Moya in Frameworks */,
 				FA71195B273175BC008EABB7 /* Kingfisher in Frameworks */,
 			);
@@ -205,6 +213,8 @@
 			isa = PBXGroup;
 			children = (
 				FA7119602732E53C008EABB7 /* Image.swift */,
+				FA8BB4DB274521CE00CB95DA /* ImageURLs.swift */,
+				FA8BB4DD2745220700CB95DA /* ImageOwner.swift */,
 				FA71198A273AE2B4008EABB7 /* Topic.swift */,
 			);
 			path = Models;
@@ -317,6 +327,8 @@
 			packageProductDependencies = (
 				FA71195A273175BC008EABB7 /* Kingfisher */,
 				FA71195D2731761C008EABB7 /* Moya */,
+				FA8BB4D427440C0F00CB95DA /* Realm */,
+				FA8BB4D627440C0F00CB95DA /* RealmSwift */,
 			);
 			productName = Unsplasher;
 			productReference = FA7119232731682F008EABB7 /* Unsplasher.app */;
@@ -393,6 +405,7 @@
 			packageReferences = (
 				FA711959273175BC008EABB7 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				FA71195C2731761C008EABB7 /* XCRemoteSwiftPackageReference "Moya" */,
+				FA8BB4D327440C0E00CB95DA /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 			);
 			productRefGroup = FA7119242731682F008EABB7 /* Products */;
 			projectDirPath = "";
@@ -474,6 +487,7 @@
 				FA7119B02743B4B4008EABB7 /* ScenesModels.swift in Sources */,
 				FA711984273AAA9E008EABB7 /* FeedModels.swift in Sources */,
 				FA71197F273A967D008EABB7 /* ImagesStore.swift in Sources */,
+				FA8BB4DC274521CE00CB95DA /* ImageURLs.swift in Sources */,
 				FA7119A62742DCFB008EABB7 /* FavoritesInteractor.swift in Sources */,
 				FA71196E27343B44008EABB7 /* ImageCell.swift in Sources */,
 				FA7119AC2742DD21008EABB7 /* FavoritesRouter.swift in Sources */,
@@ -482,6 +496,7 @@
 				FA7119A82742DD06008EABB7 /* FavoritesPresenter.swift in Sources */,
 				FA7119292731682F008EABB7 /* SceneDelegate.swift in Sources */,
 				FA71199F273D2AAA008EABB7 /* ShowImagePresenter.swift in Sources */,
+				FA8BB4DE2745220700CB95DA /* ImageOwner.swift in Sources */,
 				FA71196C27343437008EABB7 /* HeaderView.swift in Sources */,
 				FA711974273A9443008EABB7 /* FeedInteractor.swift in Sources */,
 				FA711976273A9460008EABB7 /* FeedPresenter.swift in Sources */,
@@ -871,6 +886,14 @@
 				minimumVersion = 15.0.0;
 			};
 		};
+		FA8BB4D327440C0E00CB95DA /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.19.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -883,6 +906,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FA71195C2731761C008EABB7 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
+		};
+		FA8BB4D427440C0F00CB95DA /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA8BB4D327440C0E00CB95DA /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		FA8BB4D627440C0F00CB95DA /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA8BB4D327440C0E00CB95DA /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

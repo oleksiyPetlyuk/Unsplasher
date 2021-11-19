@@ -7,53 +7,96 @@
 
 import Foundation
 import Moya
+import RealmSwift
 
 let imagesStore = ImagesStore()
 
 class ImagesStore: ImagesStoreProtocol {
-  var allImages: [Image] = []
+  let unsplashProvider = MoyaProvider<Unsplash>(stubClosure: MoyaProvider.delayedStub(2))
+  //  let unsplashProvider = MoyaProvider<Unsplash>()
 
-  let provider = MoyaProvider<Unsplash>(stubClosure: MoyaProvider.delayedStub(2))
-  //  let provider = MoyaProvider<Unsplash>()
+  var realm: Realm
 
-  func fetchImages(from topic: Topic, completion: @escaping (Result<[Image], Error>) -> Void) {
-    if !allImages.isEmpty {
-      completion(.success(allImages.filter { $0.topic == topic }))
+  init() {
+    do {
+      realm = try Realm()
+    } catch {
+      fatalError("Runtime Error: Cannot create Realm")
+    }
+  }
+
+  func observeImages(observeHandler: @escaping (RealmCollectionChange<Results<Image>>) -> Void, completion: @escaping (NotificationToken?) -> Void) {
+    let storedImages = realm.objects(Image.self).sorted(byKeyPath: "id")
+
+    if !storedImages.isEmpty {
+      completion(storedImages.observe(observeHandler))
 
       return
     }
 
-    provider.request(.getTopicsPhotos(topic: topic)) { [weak self] result in
-      guard let self = self else { return }
+    let group = DispatchGroup()
 
-      switch result {
-      case .success(let response):
-        do {
-          let images = try response.map([Image].self)
+    for topic in Topic.allCases {
+      group.enter()
 
-          images.forEach { $0.topic = topic }
-
-          self.allImages.append(contentsOf: images)
-
-          completion(.success(images))
-        } catch {
-          completion(.failure(error))
+      unsplashProvider.request(.getTopicsPhotos(topic: topic)) { [weak self] result in
+        defer {
+          group.leave()
         }
-      case .failure(let error):
-        completion(.failure(error))
+
+        guard let self = self else { return }
+
+        switch result {
+        case .success(let response):
+          do {
+            let images = try response.map([Image].self)
+
+            images.forEach { $0.topic = topic }
+
+            try self.realm.write {
+              self.realm.add(images, update: .modified)
+            }
+          } catch {
+            print(error)
+          }
+        case .failure(let error):
+          print(error)
+        }
       }
+    }
+
+    group.notify(queue: .main) {
+      completion(storedImages.observe(observeHandler))
     }
   }
 
-  func fetchFavorites(completion: @escaping (Result<[Image], Error>) -> Void) {
-    let favorites = allImages.filter { $0.isFavorite }
+  func observeImage(with id: Image.ID, observeHandler: @escaping (ObjectChange<Image>) -> Void) -> NotificationToken? {
+    let image = realm.object(ofType: Image.self, forPrimaryKey: id)
 
-    completion(.success(favorites))
+    guard let image = image else { return nil }
+
+    return image.observe(observeHandler)
+  }
+
+  func fetchFavorites(completion: @escaping (Result<[Image], Error>) -> Void) {
+    let favorites = realm.objects(Image.self).where { $0.isFavorite == true }.sorted(byKeyPath: "id")
+
+    completion(.success(favorites.map(Image.init)))
   }
 
   func fetchImage(with id: Image.ID, completion: @escaping (Result<Image?, Error>) -> Void) {
-    let image = allImages.first { $0.id == id }
+    let image = realm.object(ofType: Image.self, forPrimaryKey: id)
 
     completion(.success(image))
+  }
+
+  func updateImage(with id: Image.ID, set field: String, equalTo newValue: Any?) {
+    let image = realm.object(ofType: Image.self, forPrimaryKey: id)
+
+    guard let image = image else { return }
+
+    try? realm.write {
+      image.setValue(newValue, forKey: field)
+    }
   }
 }

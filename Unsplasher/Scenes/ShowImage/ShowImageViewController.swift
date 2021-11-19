@@ -66,7 +66,8 @@ class ShowImageViewController: UIViewController, ShowImageDisplayLogic {
   // MARK: - Get image
 
   func getImage() {
-    interactor?.getImage(request: nil)
+    interactor?.getImage()
+    interactor?.observeImage()
   }
 
   func displayImage(viewModel: ScenesModels.Image.ViewModel) {
@@ -80,11 +81,11 @@ class ShowImageViewController: UIViewController, ShowImageDisplayLogic {
       action: #selector(toggleFavorite)
     )
 
-    imageView.kf.setImage(with: image.urls.regular)
+    imageView.kf.setImage(with: image.urls?.regularURL)
 
     let plainAttributedString = NSMutableAttributedString(string: "From ")
-    let attributedLinkString = NSMutableAttributedString(string: image.owner.name, attributes: [
-      .attachment: image.owner.profileURL,
+    let attributedLinkString = NSMutableAttributedString(string: image.owner?.name ?? "Unsplash", attributes: [
+      .attachment: image.owner?.unsplashProfile ?? "https://unsplash.com",
       .foregroundColor: UIColor.placeholderText,
       .underlineStyle: NSUnderlineStyle.single.rawValue,
       .underlineColor: UIColor.placeholderText
@@ -96,17 +97,17 @@ class ShowImageViewController: UIViewController, ShowImageDisplayLogic {
 
     ownerLabel.attributedText = fullAttributedString
 
-    ownerImage.kf.setImage(with: image.owner.avatarURL)
+    ownerImage.kf.setImage(with: image.owner?.avatar)
     ownerImage.layer.cornerRadius = 25
     ownerImage.layer.borderColor = UIColor.systemBackground.cgColor
     ownerImage.layer.borderWidth = 1
   }
 
   @objc func openOwnerProfile(_ sender: UITapGestureRecognizer) {
-    interactor?.openImageOwnerProfile(request: nil)
+    interactor?.openImageOwnerProfile()
   }
 
   @objc func toggleFavorite() {
-    interactor?.toggleFavorite(request: nil)
+    interactor?.toggleFavorite()
   }
 }

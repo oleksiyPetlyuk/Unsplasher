@@ -6,13 +6,14 @@
 //
 
 import Foundation
+import RealmSwift
 
 protocol FeedBusinessLogic {
-  func fetchFeed()
+  func observeFeed()
 
   func toggleFavoriteForImage(request: ScenesModels.Image.Update.Request)
 
-  func fetchImage(request: ScenesModels.Image.Fetch.Request) -> ScenesModels.Image.Fetch.Response
+  func fetchImage(request: ScenesModels.Image.Fetch.Request, completion: @escaping (ScenesModels.Image.Fetch.Response) -> Void)
 }
 
 protocol FeedDataStore {
@@ -23,39 +24,41 @@ class FeedInteractor: FeedBusinessLogic, FeedDataStore {
   var presenter: FeedPresentationLogic?
 
   var imagesWorker = ImagesWorker(imagesStore: imagesStore)
+
   var feed: [Image]?
 
-  func fetchFeed() {
-    imagesWorker.fetchFeedImages { [weak self] feed in
+  var feedObservationToken: NotificationToken?
+
+  lazy var feedObservationHandler: (RealmCollectionChange<Results<Image>>) -> Void = { [weak self] changes in
+    guard let self = self else { return }
+
+    switch changes {
+    case .initial(let results):
+      self.presenter?.presentFeed(response: .init(feed: results.map(Image.init)))
+    case let .update(results, _, _, modifications):
+      guard let modification = modifications.first else { return }
+
+      self.presenter?.presentFeed(response: .init(feed: [results[modification]]))
+    case .error(let error):
+      print("Change error: \(error)")
+    }
+  }
+
+  func observeFeed() {
+    imagesWorker.observeFeed(observeHandler: feedObservationHandler) { [weak self] token in
       guard let self = self else { return }
 
-      self.feed = feed
-
-      self.presenter?.presentFeed(response: .init(feed: feed))
+      self.feedObservationToken = token
     }
   }
 
   func toggleFavoriteForImage(request: ScenesModels.Image.Update.Request) {
-    guard let feed = feed else { return }
-
-    let image = feed.first { $0.id == request.id }
-
-    guard let image = image else {
-      return
-    }
-
-    image.isFavorite.toggle()
-
-    presenter?.imageDidChange(response: .init(image: image))
+    imagesWorker.toggleFavorite(for: request.id)
   }
 
-  func fetchImage(request: ScenesModels.Image.Fetch.Request) -> ScenesModels.Image.Fetch.Response {
-    guard let feed = feed else {
-      return .init(image: nil)
+  func fetchImage(request: ScenesModels.Image.Fetch.Request, completion: @escaping (ScenesModels.Image.Fetch.Response) -> Void) {
+    imagesWorker.fetchImage(with: request.id) { image in
+      completion(.init(image: image))
     }
-
-    let image = feed.first { $0.id == request.id }
-
-    return .init(image: image)
   }
 }

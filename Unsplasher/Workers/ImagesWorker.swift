@@ -6,13 +6,19 @@
 //
 
 import Foundation
+import SwiftUI
+import RealmSwift
 
 protocol ImagesStoreProtocol {
-  func fetchImages(from topic: Topic, completion: @escaping (Result<[Image], Error>) -> Void)
+  func observeImages(observeHandler: @escaping (RealmCollectionChange<Results<Image>>) -> Void, completion: @escaping (NotificationToken?) -> Void)
+
+  func observeImage(with id: Image.ID, observeHandler: @escaping (ObjectChange<Image>) -> Void) -> NotificationToken?
 
   func fetchFavorites(completion: @escaping (Result<[Image], Error>) -> Void)
 
   func fetchImage(with id: Image.ID, completion: @escaping (Result<Image?, Error>) -> Void)
+
+  func updateImage(with id: Image.ID, set field: String, equalTo newValue: Any?)
 }
 
 class ImagesWorker {
@@ -22,28 +28,14 @@ class ImagesWorker {
     self.imagesStore = imagesStore
   }
 
-  func fetchFeedImages(completion: @escaping ([Image]) -> Void) {
-    var feed: [Image] = []
-    let group = DispatchGroup()
-
-    for topic in Topic.allCases {
-      group.enter()
-
-      imagesStore.fetchImages(from: topic) { result in
-        switch result {
-        case .failure(let error):
-          print(error)
-        case .success(let images):
-          feed.append(contentsOf: images)
-        }
-
-        group.leave()
-      }
+  func observeFeed(observeHandler: @escaping (RealmCollectionChange<Results<Image>>) -> Void, completion: @escaping (NotificationToken?) -> Void) {
+    imagesStore.observeImages(observeHandler: observeHandler) { token in
+      completion(token)
     }
+  }
 
-    group.notify(queue: .main) {
-      completion(feed)
-    }
+  func observeImage(with id: Image.ID, observeHandler: @escaping (ObjectChange<Image>) -> Void) -> NotificationToken? {
+    return imagesStore.observeImage(with: id, observeHandler: observeHandler)
   }
 
   func fetchFavoriteImages(completion: @escaping ([Image]) -> Void) {
@@ -65,6 +57,18 @@ class ImagesWorker {
       case .success(let image):
         completion(image)
       }
+    }
+  }
+
+  func updateImage(with id: Image.ID, set field: String, equalTo newValue: Any?) {
+    imagesStore.updateImage(with: id, set: field, equalTo: newValue)
+  }
+
+  func toggleFavorite(for id: Image.ID) {
+    fetchImage(with: id) { [weak self] image in
+      guard let self = self, let image = image else { return }
+
+      self.updateImage(with: image.id, set: "isFavorite", equalTo: !image.isFavorite)
     }
   }
 }

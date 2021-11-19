@@ -18,4 +18,8 @@ enum Favorites {
       let images: [ScenesModels.DisplayedImage]
     }
   }
+
+  enum Delete {
+    
+  }
 }

@@ -7,69 +7,78 @@
 
 import Foundation
 import UIKit
+import RealmSwift
 
 protocol ShowImageBusinessLogic {
-  func getImage(request: ScenesModels.Image.Fetch.Request?)
+  func getImage()
 
-  func openImageOwnerProfile(request: ScenesModels.Image.Fetch.Request?)
+  func observeImage()
 
-  func toggleFavorite(request: ScenesModels.Image.Update.Request?)
+  func openImageOwnerProfile()
+
+  func toggleFavorite()
 }
 
 protocol ShowImageDataStore {
-  // swiftlint:disable:next implicitly_unwrapped_optional
-  var image: Image! { get set }
+  var imageID: Image.ID? { get set }
 }
 
 class ShowImageInteractor: ShowImageBusinessLogic, ShowImageDataStore {
+  var imageID: Image.ID?
+
   var presenter: ShowImagePresentationLogic?
 
   var imagesWorker = ImagesWorker(imagesStore: imagesStore)
 
-  // swiftlint:disable:next implicitly_unwrapped_optional
-  var image: Image!
+  var observationToken: NotificationToken?
 
-  func getImage(request: ScenesModels.Image.Fetch.Request?) {
-    guard let request = request else {
-      presenter?.presentImage(response: .init(image: image))
+  lazy var observationHandler: (ObjectChange<Image>) -> Void = { [weak self] change in
+    guard let self = self else { return }
 
-      return
+    switch change {
+    case .change(let image, _):
+      self.presenter?.presentImage(response: .init(image: image))
+    case .deleted:
+      print("The object was deleted.")
+    case .error(let error):
+      print(error)
     }
+  }
 
-    imagesWorker.fetchImage(with: request.id) { [weak self] image in
+  func observeImage() {
+    guard let id = imageID else { return }
+
+    let token = imagesWorker.observeImage(with: id, observeHandler: observationHandler)
+
+    guard let token = token else { return }
+
+    self.observationToken = token
+  }
+
+  func getImage() {
+    guard let id = imageID else { return }
+
+    imagesWorker.fetchImage(with: id) { [weak self] image in
       guard let self = self else { return }
 
       self.presenter?.presentImage(response: .init(image: image))
     }
   }
 
-  func openImageOwnerProfile(request: ScenesModels.Image.Fetch.Request?) {
-    guard let request = request else {
-      UIApplication.shared.open(image.owner.profileURL)
+  func openImageOwnerProfile() {
+    guard let id = imageID else { return }
 
-      return
-    }
 
-    imagesWorker.fetchImage(with: request.id) { image in
-      guard let image = image else { return }
+    imagesWorker.fetchImage(with: id) { image in
+      guard let image = image, let url = image.owner?.unsplashProfileURL else { return }
 
-      UIApplication.shared.open(image.owner.profileURL)
+      UIApplication.shared.open(url)
     }
   }
 
-  func toggleFavorite(request: ScenesModels.Image.Update.Request?) {
-    guard let request = request else {
-      image.isFavorite.toggle()
-      presenter?.presentImage(response: .init(image: image))
+  func toggleFavorite() {
+    guard let id = imageID else { return }
 
-      return
-    }
-
-    imagesWorker.fetchImage(with: request.id) { [weak self] image in
-      guard let self = self, let image = image else { return }
-
-      image.isFavorite.toggle()
-      self.presenter?.presentImage(response: .init(image: image))
-    }
+    imagesWorker.toggleFavorite(for: id)
   }
 }

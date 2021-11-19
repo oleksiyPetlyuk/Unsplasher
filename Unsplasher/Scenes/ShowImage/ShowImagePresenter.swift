@@ -17,16 +17,20 @@ class ShowImagePresenter: ShowImagePresentationLogic {
   func presentImage(response: ScenesModels.Image.Fetch.Response) {
     guard let image = response.image else { return }
 
+    var displayedOwner: ScenesModels.DisplayedImageOwner?
 
-    let imageOwner = ScenesModels.DisplayedOwner(
-      name: image.owner.name,
-      avatarURL: image.owner.avatarURL,
-      profileURL: image.owner.profileURL
-    )
+    if let owner = image.owner {
+      displayedOwner = ScenesModels.DisplayedImageOwner(
+        name: owner.name,
+        avatar: owner.avatarURL,
+        unsplashProfile: owner.unsplashProfileURL
+      )
+    }
+
     let displayedImage = ScenesModels.DisplayedImage(
       id: image.id,
       urls: image.urls,
-      owner: imageOwner,
+      owner: displayedOwner,
       isFavorite: image.isFavorite,
       topic: image.topic
     )

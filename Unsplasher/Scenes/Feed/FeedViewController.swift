@@ -9,8 +9,6 @@ import UIKit
 
 protocol FeedDisplayLogic: AnyObject {
   func displayFeed(viewModel: Feed.Fetch.ViewModel)
-
-  func imageDidChange(response: ScenesModels.Image.Update.Response)
 }
 
 class FeedViewController: UIViewController, FeedDisplayLogic {
@@ -47,16 +45,35 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
     ) { [weak self] collectionView, indexPath, identifier -> UICollectionViewCell? in
       guard let self = self else { return nil }
 
+      let semaphore = DispatchSemaphore(value: 0)
+      var image: Image?
+
       // `identifier` is an instance of `DisplayedImage.ID`. Use it to
       // retrieve the recipe from the backing data store.
-      let response = self.interactor?.fetchImage(request: .init(id: identifier))
+      self.interactor?.fetchImage(request: .init(id: identifier)) { response in
+        image = response.image
 
-      guard let image = response?.image else { return nil }
+        semaphore.signal()
+      }
+
+      semaphore.wait()
+
+      guard let image = image else { return nil }
+
+      var displayedOwner: ScenesModels.DisplayedImageOwner?
+
+      if let owner = image.owner {
+        displayedOwner = ScenesModels.DisplayedImageOwner(
+          name: owner.name,
+          avatar: owner.avatarURL,
+          unsplashProfile: owner.unsplashProfileURL
+        )
+      }
 
       let displayedImage = DisplayedImage(
         id: image.id,
         urls: image.urls,
-        owner: .init(name: image.owner.name, avatarURL: image.owner.avatarURL, profileURL: image.owner.profileURL),
+        owner: displayedOwner,
         isFavorite: image.isFavorite,
         topic: image.topic
       )
@@ -104,12 +121,8 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
     navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: nil)
 
     collectionView.addGestureRecognizer(doubleTapGesture)
-  }
 
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-
-    fetchFeed()
+    startFeedObserving()
   }
 
   // MARK: - Setup
@@ -142,23 +155,12 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
 
   // MARK: - Fetch images
 
-  func fetchFeed() {
-    interactor?.fetchFeed()
+  func startFeedObserving() {
+    interactor?.observeFeed()
   }
 
   func displayFeed(viewModel: Feed.Fetch.ViewModel) {
     dataSource.applySnapshotUsingReloadData(snapshot(for: viewModel.feed))
-  }
-
-  func imageDidChange(response: ScenesModels.Image.Update.Response) {
-    let image = response.image
-
-    // Confirm that the data source contains the image.
-    guard dataSource.indexPath(for: image.id) != nil else { return }
-
-    var snapshot = dataSource.snapshot()
-    snapshot.reconfigureItems([image.id])
-    dataSource.apply(snapshot, animatingDifferences: true)
   }
 
   // MARK: - Toggle favorite

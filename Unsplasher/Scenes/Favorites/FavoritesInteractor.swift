@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import RealmSwift
 
 protocol FavoritesBusinessLogic {
   func fetchFavorites()
 
-  func fetchImage(request: ScenesModels.Image.Fetch.Request) -> ScenesModels.Image.Fetch.Response
+  func fetchImage(request: ScenesModels.Image.Fetch.Request, completion: @escaping (ScenesModels.Image.Fetch.Response) -> Void)
 }
 
 protocol FavoritesDataStore {
@@ -21,6 +22,7 @@ class FavoritesInteractor: FavoritesBusinessLogic, FavoritesDataStore {
   var presenter: FavoritesPresentationLogic?
 
   var imagesWorker = ImagesWorker(imagesStore: imagesStore)
+
   var images: [Image]?
 
   func fetchFavorites() {
@@ -33,13 +35,9 @@ class FavoritesInteractor: FavoritesBusinessLogic, FavoritesDataStore {
     }
   }
 
-  func fetchImage(request: ScenesModels.Image.Fetch.Request) -> ScenesModels.Image.Fetch.Response {
-    guard let images = images else {
-      return .init(image: nil)
+  func fetchImage(request: ScenesModels.Image.Fetch.Request, completion: @escaping (ScenesModels.Image.Fetch.Response) -> Void) {
+    imagesWorker.fetchImage(with: request.id) { image in
+      completion(.init(image: image))
     }
-
-    let image = images.first { $0.id == request.id }
-
-    return .init(image: image)
   }
 }
