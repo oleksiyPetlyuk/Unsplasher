@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 class FavoritableImageCell: ImageCell {
   private let isFavoriteImage = UIImageView()

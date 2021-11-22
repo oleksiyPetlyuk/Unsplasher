@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 protocol ShowImageDisplayLogic: AnyObject {
   func displayImage(viewModel: ScenesModels.Image.ViewModel)
@@ -81,7 +80,7 @@ class ShowImageViewController: UIViewController, ShowImageDisplayLogic {
       action: #selector(toggleFavorite)
     )
 
-    imageView.kf.setImage(with: image.urls?.regularURL)
+    imageView.imageProvider.setImage(from: image.urls?.regularURL)
 
     let plainAttributedString = NSMutableAttributedString(string: "From ")
     let attributedLinkString = NSMutableAttributedString(string: image.owner?.name ?? "Unsplash", attributes: [
@@ -97,7 +96,7 @@ class ShowImageViewController: UIViewController, ShowImageDisplayLogic {
 
     ownerLabel.attributedText = fullAttributedString
 
-    ownerImage.kf.setImage(with: image.owner?.avatar)
+    ownerImage.imageProvider.setImage(from: image.owner?.avatar)
     ownerImage.layer.cornerRadius = 25
     ownerImage.layer.borderColor = UIColor.systemBackground.cgColor
     ownerImage.layer.borderWidth = 1

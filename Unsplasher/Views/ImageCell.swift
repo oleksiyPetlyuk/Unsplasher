@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 class ImageCell: UICollectionViewCell {
   private(set) var imageView = UIImageView()
@@ -19,14 +18,14 @@ class ImageCell: UICollectionViewCell {
     contentView.addSubview(imageView)
     contentView.addSubview(contentContainer)
 
-    imageView.kf.setImage(with: image.urls?.regularURL, options: [.transition(.fade(0.3))])
+    imageView.imageProvider.setImage(from: image.urls?.regularURL)
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.layer.cornerRadius = 4
     imageView.clipsToBounds = true
     contentContainer.addSubview(imageView)
 
     ownerImage.translatesAutoresizingMaskIntoConstraints = false
-    ownerImage.kf.setImage(with: image.owner?.avatar, options: [.transition(.fade(0.3))])
+    ownerImage.imageProvider.setImage(from: image.owner?.avatar)
     ownerImage.layer.cornerRadius = 15
     ownerImage.layer.borderColor = UIColor.systemBackground.cgColor
     ownerImage.layer.borderWidth = 1

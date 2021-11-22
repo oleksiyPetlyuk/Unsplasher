@@ -15,7 +15,6 @@
 		FA71193E27316833008EABB7 /* UnsplasherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA71193D27316833008EABB7 /* UnsplasherTests.swift */; };
 		FA71194827316833008EABB7 /* UnsplasherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA71194727316833008EABB7 /* UnsplasherUITests.swift */; };
 		FA71194A27316833008EABB7 /* UnsplasherUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA71194927316833008EABB7 /* UnsplasherUITestsLaunchTests.swift */; };
-		FA71195B273175BC008EABB7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FA71195A273175BC008EABB7 /* Kingfisher */; };
 		FA71195E2731761C008EABB7 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = FA71195D2731761C008EABB7 /* Moya */; };
 		FA7119612732E53C008EABB7 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119602732E53C008EABB7 /* Image.swift */; };
 		FA7119642732E805008EABB7 /* Unsplash.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119632732E805008EABB7 /* Unsplash.swift */; };
@@ -50,6 +49,12 @@
 		FA8BB4D727440C0F00CB95DA /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FA8BB4D627440C0F00CB95DA /* RealmSwift */; };
 		FA8BB4DC274521CE00CB95DA /* ImageURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BB4DB274521CE00CB95DA /* ImageURLs.swift */; };
 		FA8BB4DE2745220700CB95DA /* ImageOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8BB4DD2745220700CB95DA /* ImageOwner.swift */; };
+		FAAD98F9274BBF6D00DDE0FF /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAD98F8274BBF6D00DDE0FF /* ImageCache.swift */; };
+		FAAD98FB274BBFB700DDE0FF /* CallbackQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAD98FA274BBFB700DDE0FF /* CallbackQueue.swift */; };
+		FAAD98FD274BBFD100DDE0FF /* FileIOController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAD98FC274BBFD100DDE0FF /* FileIOController.swift */; };
+		FAAD9900274BC01F00DDE0FF /* Digest+hexStr.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAD98FF274BC01F00DDE0FF /* Digest+hexStr.swift */; };
+		FAAD9902274BC04000DDE0FF /* String+sha256.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAD9901274BC04000DDE0FF /* String+sha256.swift */; };
+		FADBB5A92747F8A700BA299F /* ImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADBB5A82747F8A700BA299F /* ImageProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +119,12 @@
 		FA7119B12743F62F008EABB7 /* FavoritableImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritableImageCell.swift; sourceTree = "<group>"; };
 		FA8BB4DB274521CE00CB95DA /* ImageURLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageURLs.swift; sourceTree = "<group>"; };
 		FA8BB4DD2745220700CB95DA /* ImageOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOwner.swift; sourceTree = "<group>"; };
+		FAAD98F8274BBF6D00DDE0FF /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		FAAD98FA274BBFB700DDE0FF /* CallbackQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallbackQueue.swift; sourceTree = "<group>"; };
+		FAAD98FC274BBFD100DDE0FF /* FileIOController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileIOController.swift; sourceTree = "<group>"; };
+		FAAD98FF274BC01F00DDE0FF /* Digest+hexStr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Digest+hexStr.swift"; sourceTree = "<group>"; };
+		FAAD9901274BC04000DDE0FF /* String+sha256.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+sha256.swift"; sourceTree = "<group>"; };
+		FADBB5A82747F8A700BA299F /* ImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,7 +135,6 @@
 				FA8BB4D727440C0F00CB95DA /* RealmSwift in Frameworks */,
 				FA8BB4D527440C0F00CB95DA /* Realm in Frameworks */,
 				FA71195E2731761C008EABB7 /* Moya in Frameworks */,
-				FA71195B273175BC008EABB7 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,11 +179,13 @@
 		FA7119252731682F008EABB7 /* Unsplasher */ = {
 			isa = PBXGroup;
 			children = (
+				FAAD98FE274BC00800DDE0FF /* Extensions */,
 				FA71195F2732E4CD008EABB7 /* Common */,
 				FA711985273AAF04008EABB7 /* Workers */,
 				FA71197D273A965B008EABB7 /* Services */,
 				FA71196F273A934F008EABB7 /* Scenes */,
 				FA7119622732E542008EABB7 /* Models */,
+				FA8BB4DF2747E16400CB95DA /* Misc */,
 				FA711988273AC058008EABB7 /* Views */,
 			);
 			path = Unsplasher;
@@ -307,6 +319,26 @@
 			path = Favorites;
 			sourceTree = "<group>";
 		};
+		FA8BB4DF2747E16400CB95DA /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				FADBB5A82747F8A700BA299F /* ImageProvider.swift */,
+				FAAD98F8274BBF6D00DDE0FF /* ImageCache.swift */,
+				FAAD98FA274BBFB700DDE0FF /* CallbackQueue.swift */,
+				FAAD98FC274BBFD100DDE0FF /* FileIOController.swift */,
+			);
+			path = Misc;
+			sourceTree = "<group>";
+		};
+		FAAD98FE274BC00800DDE0FF /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FAAD98FF274BC01F00DDE0FF /* Digest+hexStr.swift */,
+				FAAD9901274BC04000DDE0FF /* String+sha256.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -325,7 +357,6 @@
 			);
 			name = Unsplasher;
 			packageProductDependencies = (
-				FA71195A273175BC008EABB7 /* Kingfisher */,
 				FA71195D2731761C008EABB7 /* Moya */,
 				FA8BB4D427440C0F00CB95DA /* Realm */,
 				FA8BB4D627440C0F00CB95DA /* RealmSwift */,
@@ -403,7 +434,6 @@
 			);
 			mainGroup = FA71191A2731682F008EABB7;
 			packageReferences = (
-				FA711959273175BC008EABB7 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				FA71195C2731761C008EABB7 /* XCRemoteSwiftPackageReference "Moya" */,
 				FA8BB4D327440C0E00CB95DA /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 			);
@@ -475,6 +505,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAAD98FB274BBFB700DDE0FF /* CallbackQueue.swift in Sources */,
+				FAAD9900274BC01F00DDE0FF /* Digest+hexStr.swift in Sources */,
 				FA7119612732E53C008EABB7 /* Image.swift in Sources */,
 				FA7119B22743F62F008EABB7 /* FavoritableImageCell.swift in Sources */,
 				FA71199D273D2A9F008EABB7 /* ShowImageInteractor.swift in Sources */,
@@ -493,11 +525,15 @@
 				FA7119AC2742DD21008EABB7 /* FavoritesRouter.swift in Sources */,
 				FA71197A273A9488008EABB7 /* FeedRouter.swift in Sources */,
 				FA711987273AAF12008EABB7 /* ImagesWorker.swift in Sources */,
+				FAAD98FD274BBFD100DDE0FF /* FileIOController.swift in Sources */,
 				FA7119A82742DD06008EABB7 /* FavoritesPresenter.swift in Sources */,
 				FA7119292731682F008EABB7 /* SceneDelegate.swift in Sources */,
+				FADBB5A92747F8A700BA299F /* ImageProvider.swift in Sources */,
 				FA71199F273D2AAA008EABB7 /* ShowImagePresenter.swift in Sources */,
 				FA8BB4DE2745220700CB95DA /* ImageOwner.swift in Sources */,
+				FAAD9902274BC04000DDE0FF /* String+sha256.swift in Sources */,
 				FA71196C27343437008EABB7 /* HeaderView.swift in Sources */,
+				FAAD98F9274BBF6D00DDE0FF /* ImageCache.swift in Sources */,
 				FA711974273A9443008EABB7 /* FeedInteractor.swift in Sources */,
 				FA711976273A9460008EABB7 /* FeedPresenter.swift in Sources */,
 				FA7119A42742DCCC008EABB7 /* FavoritesViewController.swift in Sources */,
@@ -870,14 +906,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		FA711959273175BC008EABB7 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.0.0;
-			};
-		};
 		FA71195C2731761C008EABB7 /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya.git";
@@ -897,11 +925,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		FA71195A273175BC008EABB7 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FA711959273175BC008EABB7 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
 		FA71195D2731761C008EABB7 /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FA71195C2731761C008EABB7 /* XCRemoteSwiftPackageReference "Moya" */;
