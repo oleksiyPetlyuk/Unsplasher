@@ -14,6 +14,8 @@ protocol FeedBusinessLogic {
   func toggleFavoriteForImage(request: ScenesModels.Image.Update.Request)
 
   func fetchImage(request: ScenesModels.Image.Fetch.Request, completion: @escaping (ScenesModels.Image.Fetch.Response) -> Void)
+
+  func refreshFeed()
 }
 
 protocol FeedDataStore {
@@ -35,10 +37,14 @@ class FeedInteractor: FeedBusinessLogic, FeedDataStore {
     switch changes {
     case .initial(let results):
       self.presenter?.presentFeed(response: .init(feed: results.map(Image.init)))
-    case let .update(results, _, _, modifications):
-      guard let modification = modifications.first else { return }
+    case let .update(results, _, insertions, modifications):
+      if let modification = modifications.first {
+        self.presenter?.presentFeed(response: .init(feed: [results[modification]]))
+      }
 
-      self.presenter?.presentFeed(response: .init(feed: [results[modification]]))
+      if !insertions.isEmpty {
+        self.presenter?.presentFeed(response: .init(feed: results.map(Image.init)))
+      }
     case .error(let error):
       print("Change error: \(error)")
     }
@@ -60,5 +66,9 @@ class FeedInteractor: FeedBusinessLogic, FeedDataStore {
     imagesWorker.fetchImage(with: request.id) { image in
       completion(.init(image: image))
     }
+  }
+
+  func refreshFeed() {
+    imagesWorker.fetchFeed()
   }
 }

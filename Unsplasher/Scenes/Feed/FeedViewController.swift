@@ -118,7 +118,11 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
     super.viewDidLoad()
 
     navigationItem.title = "Feed"
-    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: nil)
+    navigationItem.rightBarButtonItem = UIBarButtonItem(
+      barButtonSystemItem: .refresh,
+      target: self,
+      action: #selector(refreshFeed)
+    )
 
     collectionView.addGestureRecognizer(doubleTapGesture)
 
@@ -160,7 +164,7 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
   }
 
   func displayFeed(viewModel: Feed.Fetch.ViewModel) {
-    dataSource.applySnapshotUsingReloadData(snapshot(for: viewModel.feed))
+    dataSource.apply(snapshot(for: viewModel.feed), animatingDifferences: true)
   }
 
   // MARK: - Toggle favorite
@@ -173,6 +177,12 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
       let imageId = dataSource.itemIdentifier(for: selectedIndexPath) {
       interactor?.toggleFavoriteForImage(request: .init(id: imageId))
     }
+  }
+
+  // MARK: - Refresh feed
+
+  @objc func refreshFeed() {
+    interactor?.refreshFeed()
   }
 }
 
@@ -188,7 +198,13 @@ extension FeedViewController {
 
     feed.forEach { image in
       if snapshot.indexOfItem(image.id) == nil {
-        snapshot.appendItems([image.id], toSection: image.topic)
+        guard let topic = image.topic, let firstId = snapshot.itemIdentifiers(inSection: topic).first else {
+          snapshot.appendItems([image.id], toSection: image.topic)
+
+          return
+        }
+
+        snapshot.insertItems([image.id], beforeItem: firstId)
       } else {
         snapshot.reconfigureItems([image.id])
       }

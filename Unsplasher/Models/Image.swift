@@ -9,13 +9,14 @@ import Foundation
 import RealmSwift
 
 class Image: Object, Identifiable, Decodable {
-  @Persisted(primaryKey: true) var id: ObjectId
+  @Persisted(primaryKey: true) var id: String
   @Persisted var urls: ImageURLs?
   @Persisted var owner: ImageOwner?
   @Persisted var isFavorite = false
   @Persisted var topic: Topic?
+  @Persisted var modifiedAt = Date()
 
   enum CodingKeys: String, CodingKey {
-    case urls, owner = "user"
+    case id, urls, owner = "user"
   }
 }

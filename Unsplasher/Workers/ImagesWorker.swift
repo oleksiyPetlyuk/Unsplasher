@@ -19,6 +19,8 @@ protocol ImagesStoreProtocol {
   func fetchImage(with id: Image.ID, completion: @escaping (Result<Image?, Error>) -> Void)
 
   func updateImage(with id: Image.ID, set field: String, equalTo newValue: Any?)
+
+  func fetchFeed(completion: @escaping () -> Void)
 }
 
 class ImagesWorker {
@@ -70,5 +72,9 @@ class ImagesWorker {
 
       self.updateImage(with: image.id, set: "isFavorite", equalTo: !image.isFavorite)
     }
+  }
+
+  func fetchFeed() {
+    imagesStore.fetchFeed {}
   }
 }

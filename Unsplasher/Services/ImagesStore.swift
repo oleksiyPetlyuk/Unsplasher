@@ -12,8 +12,8 @@ import RealmSwift
 let imagesStore = ImagesStore()
 
 class ImagesStore: ImagesStoreProtocol {
-  let unsplashProvider = MoyaProvider<Unsplash>(stubClosure: MoyaProvider.delayedStub(2))
-  //  let unsplashProvider = MoyaProvider<Unsplash>()
+  //  let unsplashProvider = MoyaProvider<Unsplash>(stubClosure: MoyaProvider.delayedStub(2))
+  let unsplashProvider = MoyaProvider<Unsplash>()
 
   var realm: Realm
 
@@ -26,7 +26,7 @@ class ImagesStore: ImagesStoreProtocol {
   }
 
   func observeImages(observeHandler: @escaping (RealmCollectionChange<Results<Image>>) -> Void, completion: @escaping (NotificationToken?) -> Void) {
-    let storedImages = realm.objects(Image.self).sorted(byKeyPath: "id")
+    let storedImages = realm.objects(Image.self).sorted(byKeyPath: "modifiedAt")
 
     if !storedImages.isEmpty {
       completion(storedImages.observe(observeHandler))
@@ -34,6 +34,42 @@ class ImagesStore: ImagesStoreProtocol {
       return
     }
 
+    fetchFeed {
+      completion(storedImages.observe(observeHandler))
+    }
+  }
+
+  func observeImage(with id: Image.ID, observeHandler: @escaping (ObjectChange<Image>) -> Void) -> NotificationToken? {
+    let image = realm.object(ofType: Image.self, forPrimaryKey: id)
+
+    guard let image = image else { return nil }
+
+    return image.observe(observeHandler)
+  }
+
+  func fetchFavorites(completion: @escaping (Result<[Image], Error>) -> Void) {
+    let favorites = realm.objects(Image.self).where { $0.isFavorite == true }.sorted(byKeyPath: "modifiedAt")
+
+    completion(.success(favorites.map(Image.init)))
+  }
+
+  func fetchImage(with id: Image.ID, completion: @escaping (Result<Image?, Error>) -> Void) {
+    let image = realm.object(ofType: Image.self, forPrimaryKey: id)
+
+    completion(.success(image))
+  }
+
+  func updateImage(with id: Image.ID, set field: String, equalTo newValue: Any?) {
+    let image = realm.object(ofType: Image.self, forPrimaryKey: id)
+
+    guard let image = image else { return }
+
+    try? realm.write {
+      image.setValue(newValue, forKey: field)
+    }
+  }
+
+  func fetchFeed(completion: @escaping () -> Void) {
     let group = DispatchGroup()
 
     for topic in Topic.allCases {
@@ -66,37 +102,7 @@ class ImagesStore: ImagesStoreProtocol {
     }
 
     group.notify(queue: .main) {
-      completion(storedImages.observe(observeHandler))
-    }
-  }
-
-  func observeImage(with id: Image.ID, observeHandler: @escaping (ObjectChange<Image>) -> Void) -> NotificationToken? {
-    let image = realm.object(ofType: Image.self, forPrimaryKey: id)
-
-    guard let image = image else { return nil }
-
-    return image.observe(observeHandler)
-  }
-
-  func fetchFavorites(completion: @escaping (Result<[Image], Error>) -> Void) {
-    let favorites = realm.objects(Image.self).where { $0.isFavorite == true }.sorted(byKeyPath: "id")
-
-    completion(.success(favorites.map(Image.init)))
-  }
-
-  func fetchImage(with id: Image.ID, completion: @escaping (Result<Image?, Error>) -> Void) {
-    let image = realm.object(ofType: Image.self, forPrimaryKey: id)
-
-    completion(.success(image))
-  }
-
-  func updateImage(with id: Image.ID, set field: String, equalTo newValue: Any?) {
-    let image = realm.object(ofType: Image.self, forPrimaryKey: id)
-
-    guard let image = image else { return }
-
-    try? realm.write {
-      image.setValue(newValue, forKey: field)
+      completion()
     }
   }
 }
