@@ -20,7 +20,7 @@
                     <connections>
                         <segue destination="dvW-2V-E6F" kind="relationship" relationship="viewControllers" id="RsL-bN-71F"/>
                         <segue destination="J1n-NS-Awx" kind="relationship" relationship="viewControllers" id="Aus-NX-7Et"/>
-                        <segue destination="8Nz-5z-1nl" kind="relationship" relationship="viewControllers" id="fxD-GC-fSg"/>
+                        <segue destination="O1u-18-rBX" kind="relationship" relationship="viewControllers" id="KJx-mT-0iQ"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XKN-ma-jop" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -128,29 +128,60 @@
             <point key="canvasLocation" x="668.11594202898561" y="-281.25"/>
         </scene>
         <!--Settings-->
-        <scene sceneID="t91-W6-A39">
+        <scene sceneID="aTT-1A-cBm">
             <objects>
-                <viewController id="8Nz-5z-1nl" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="sZ2-VU-5y3">
+                <tableViewController id="H5b-fV-l88" customClass="SettingsTableViewController" customModule="Unsplasher" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="Ebq-rB-Kyu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lvO-H9-fPf">
-                                <rect key="frame" x="176" y="438" width="63" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="8Lt-2s-a6x"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Settings" image="gear" catalog="system" id="Ac5-5J-Omw"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="QmX-KH-TEe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                        <sections>
+                            <tableViewSection id="78P-3g-wqV">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="sND-o7-0dI">
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sND-o7-0dI" id="kXL-9a-ogq">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Theme" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qtS-UJ-azX">
+                                                    <rect key="frame" x="20" y="14.5" width="53" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="System" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oMw-Wk-274">
+                                                    <rect key="frame" x="337" y="14" width="57" height="22"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="oMw-Wk-274" secondAttribute="trailing" constant="20" symbolic="YES" id="6No-ew-xD0"/>
+                                                <constraint firstItem="qtS-UJ-azX" firstAttribute="leading" secondItem="kXL-9a-ogq" secondAttribute="leading" constant="20" symbolic="YES" id="BQx-Wb-zgP"/>
+                                                <constraint firstItem="oMw-Wk-274" firstAttribute="centerY" secondItem="qtS-UJ-azX" secondAttribute="centerY" id="ERp-js-eqq"/>
+                                                <constraint firstItem="qtS-UJ-azX" firstAttribute="centerY" secondItem="kXL-9a-ogq" secondAttribute="centerY" id="Gld-K1-bUl"/>
+                                                <constraint firstItem="oMw-Wk-274" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qtS-UJ-azX" secondAttribute="trailing" constant="16" id="xiG-eA-5d1"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="H5b-fV-l88" id="KxR-SK-fIf"/>
+                            <outlet property="delegate" destination="H5b-fV-l88" id="nST-UW-vm2"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Settings" id="doV-2Y-CJx"/>
+                    <connections>
+                        <outlet property="currentThemeTextField" destination="oMw-Wk-274" id="bMp-yX-42X"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xjf-qd-jdy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-242" y="444"/>
+            <point key="canvasLocation" x="668.11594202898561" y="444.64285714285711"/>
         </scene>
         <!--Feed-->
         <scene sceneID="Wds-XW-Q9W">
@@ -189,6 +220,28 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pe3-Et-1Qc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-242.0289855072464" y="-281.25"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="OHz-0J-1mT">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="O1u-18-rBX" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Settings" image="gear" catalog="system" id="Ihl-6j-6LM"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="ESb-k7-8e5">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="56b-Do-mmf">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="H5b-fV-l88" kind="relationship" relationship="rootViewController" id="lT1-K4-XN9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bpr-Ms-3XK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-242.0289855072464" y="444.64285714285711"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
