@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  Unsplasher
+
+  Created by Oleksiy Petlyuk on 24.11.2021.
+  
+*/
+
+"feed" = "Feed";
+"from" = "From";
+"favorites" = "Favorites";
+"done" = "Done";
+"wallpapers" = "Wallpapers";
+"nature" = "Nature";
+"architecture" = "Architecture";
+"textures-patterns" = "Textures & Patterns";
+"animals" = "Animals";
+"theme.system" = "System";
+"theme.light" = "Light";
+"theme.dark" = "Dark";

@@ -18,15 +18,15 @@ enum Topic: String, CaseIterable, CustomStringConvertible, PersistableEnum {
   var description: String {
     switch self {
     case .wallpapers:
-      return "Wallpapers"
+      return NSLocalizedString("wallpapers", comment: "wallpapers")
     case .nature:
-      return "Nature"
+      return NSLocalizedString("nature", comment: "nature")
     case .architecture:
-      return "Architecture"
+      return NSLocalizedString("architecture", comment: "architecture")
     case .textures:
-      return "Textures & Patterns"
+      return NSLocalizedString("textures-patterns", comment: "textures-patterns")
     case .animals:
-      return "Animals"
+      return NSLocalizedString("animals", comment: "animals")
     }
   }
 }

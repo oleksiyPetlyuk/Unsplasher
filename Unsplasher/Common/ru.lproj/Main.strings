@@ -1,0 +1,21 @@
+
+/* Class = "UILabel"; text = "From John Doe"; ObjectID = "GeG-LD-AdK"; */
+"GeG-LD-AdK.text" = "От John Doe";
+
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "Ihl-6j-6LM"; */
+"Ihl-6j-6LM.title" = "Настройки";
+
+/* Class = "UITabBarItem"; title = "Favorites"; ObjectID = "WtJ-ti-nS2"; */
+"WtJ-ti-nS2.title" = "Избранное";
+
+/* Class = "UITabBarItem"; title = "Feed"; ObjectID = "Xe0-Wg-9Py"; */
+"Xe0-Wg-9Py.title" = "Лента";
+
+/* Class = "UINavigationItem"; title = "Settings"; ObjectID = "doV-2Y-CJx"; */
+"doV-2Y-CJx.title" = "Настройки";
+
+/* Class = "UITextField"; text = "System"; ObjectID = "oMw-Wk-274"; */
+"oMw-Wk-274.text" = "Как в системе";
+
+/* Class = "UILabel"; text = "Theme"; ObjectID = "qtS-UJ-azX"; */
+"qtS-UJ-azX.text" = "Тема";

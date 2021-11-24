@@ -117,7 +117,7 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    navigationItem.title = "Feed"
+    navigationItem.title = NSLocalizedString("feed", comment: "Feed")
     navigationItem.rightBarButtonItem = UIBarButtonItem(
       barButtonSystemItem: .refresh,
       target: self,

@@ -64,7 +64,7 @@ class SettingsTableViewController: UITableViewController, SettingsDisplayLogic {
     let settings = viewModel.settings
 
     selectedTheme = settings.theme
-    currentThemeTextField.text = settings.theme.rawValue
+    currentThemeTextField.text = settings.theme.description
   }
 }
 
@@ -81,7 +81,12 @@ extension SettingsTableViewController: UIPickerViewDelegate, UIPickerViewDataSou
 
     let toolBar = UIToolbar()
     toolBar.sizeToFit()
-    let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(changeTheme))
+    let button = UIBarButtonItem(
+      title: NSLocalizedString("done", comment: "done"),
+      style: .plain,
+      target: self,
+      action: #selector(changeTheme)
+    )
     toolBar.setItems([button], animated: true)
     currentThemeTextField.inputAccessoryView = toolBar
   }
@@ -102,7 +107,7 @@ extension SettingsTableViewController: UIPickerViewDelegate, UIPickerViewDataSou
   }
 
   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    return ApplicationTheme.allCases[row].rawValue
+    return ApplicationTheme.allCases[row].description
   }
 
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {

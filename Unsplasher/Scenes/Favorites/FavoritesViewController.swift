@@ -101,7 +101,7 @@ class FavoritesViewController: UIViewController, FavoritesDisplayLogic {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    navigationItem.title = "Favorites"
+    navigationItem.title = NSLocalizedString("favorites", comment: "favorites")
   }
 
   override func viewWillAppear(_ animated: Bool) {

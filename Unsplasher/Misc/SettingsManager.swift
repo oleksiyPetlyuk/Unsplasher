@@ -8,10 +8,21 @@
 import Foundation
 import UIKit
 
-enum ApplicationTheme: String, CaseIterable {
+enum ApplicationTheme: String, CaseIterable, CustomStringConvertible {
   case system = "System"
   case light = "Light"
   case dark = "Dark"
+
+  var description: String {
+    switch self {
+    case .system:
+      return NSLocalizedString("theme.system", comment: "system theme")
+    case .light:
+      return NSLocalizedString("theme.light", comment: "light theme")
+    case .dark:
+      return NSLocalizedString("theme.dark", comment: "dark theme")
+    }
+  }
 }
 
 class SettingsManager {

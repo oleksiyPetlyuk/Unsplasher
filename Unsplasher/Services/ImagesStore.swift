@@ -12,8 +12,8 @@ import RealmSwift
 let imagesStore = ImagesStore()
 
 class ImagesStore: ImagesStoreProtocol {
-  //  let unsplashProvider = MoyaProvider<Unsplash>(stubClosure: MoyaProvider.delayedStub(2))
-  let unsplashProvider = MoyaProvider<Unsplash>()
+  let unsplashProvider = MoyaProvider<Unsplash>(stubClosure: MoyaProvider.delayedStub(2))
+  //  let unsplashProvider = MoyaProvider<Unsplash>()
 
   var realm: Realm
 
