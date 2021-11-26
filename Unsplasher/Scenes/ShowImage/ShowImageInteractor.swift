@@ -115,14 +115,14 @@ class ShowImageInteractor: NSObject, ShowImageBusinessLogic, ShowImageDataStore 
 
     if let error = error {
       presenter?.presentAlert(response: .init(
-        title: NSLocalizedString("oops", comment: "Oops"),
+        title: R.string.localizable.oops(),
         message: error.localizedDescription,
         actions: [action]
       ))
     } else {
       presenter?.presentAlert(response: .init(
-        title: NSLocalizedString("success", comment: "Success"),
-        message: NSLocalizedString("image_was_saved", comment: "Image was saved"),
+        title: R.string.localizable.success(),
+        message: R.string.localizable.imageWasSaved(),
         actions: [action]
       ))
     }

@@ -117,7 +117,7 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    navigationItem.title = NSLocalizedString("feed", comment: "Feed")
+    navigationItem.title = R.string.localizable.feed()
     navigationItem.rightBarButtonItem = UIBarButtonItem(
       barButtonSystemItem: .refresh,
       target: self,
@@ -238,6 +238,6 @@ extension FeedViewController {
 
 extension FeedViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    performSegue(withIdentifier: "ShowImage", sender: nil)
+    performSegue(withIdentifier: R.segue.feedViewController.showImage, sender: nil)
   }
 }

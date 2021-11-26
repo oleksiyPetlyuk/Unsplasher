@@ -25,8 +25,8 @@ class FeedRouter: NSObject, FeedRoutingLogic, FeedDataPassing {
     if let segue = segue {
       guard
         let dataStore = dataStore,
-        let destinationViewController = segue.destination as? ShowImageViewController,
-        var destinationDataStore = destinationViewController.router?.dataStore else {
+        let typedInfo = R.segue.feedViewController.showImage(segue: segue),
+        var destinationDataStore = typedInfo.destination.router?.dataStore else {
           return
         }
 
@@ -35,9 +35,7 @@ class FeedRouter: NSObject, FeedRoutingLogic, FeedDataPassing {
       guard
         let viewController = viewController,
         let dataStore = dataStore,
-        let destinationViewController = viewController.storyboard?.instantiateViewController(
-          withIdentifier: "ShowImageViewController"
-        ) as? ShowImageViewController,
+        let destinationViewController = R.storyboard.main.showImageViewController(),
         var destinationDataStore = destinationViewController.router?.dataStore else {
           return
         }

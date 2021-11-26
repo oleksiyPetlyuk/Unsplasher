@@ -101,7 +101,7 @@ class FavoritesViewController: UIViewController, FavoritesDisplayLogic {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    navigationItem.title = NSLocalizedString("favorites", comment: "favorites")
+    navigationItem.title = R.string.localizable.favorites()
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -172,6 +172,6 @@ extension FavoritesViewController {
 
 extension FavoritesViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    performSegue(withIdentifier: "ShowImage", sender: nil)
+    performSegue(withIdentifier: R.segue.favoritesViewController.showImage, sender: nil)
   }
 }

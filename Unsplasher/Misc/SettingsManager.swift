@@ -16,11 +16,11 @@ enum ApplicationTheme: String, CaseIterable, CustomStringConvertible {
   var description: String {
     switch self {
     case .system:
-      return NSLocalizedString("theme.system", comment: "system theme")
+      return R.string.localizable.themeSystem()
     case .light:
-      return NSLocalizedString("theme.light", comment: "light theme")
+      return R.string.localizable.themeLight()
     case .dark:
-      return NSLocalizedString("theme.dark", comment: "dark theme")
+      return R.string.localizable.themeDark()
     }
   }
 }

@@ -20,4 +20,4 @@
 "theme.dark" = "Dark";
 "success" = "Success";
 "oops" = "Oops";
-"image_was_saved" = "Image was saved";
+"imageWasSaved" = "Image was saved";

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA0B6F1F275123B8005950EF /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0B6F1E275114A2005950EF /* R.generated.swift */; };
+		FA0B6F22275124A6005950EF /* Rswift in Frameworks */ = {isa = PBXBuildFile; productRef = FA0B6F21275124A6005950EF /* Rswift */; };
 		FA7119272731682F008EABB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119262731682F008EABB7 /* AppDelegate.swift */; };
 		FA7119292731682F008EABB7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7119282731682F008EABB7 /* SceneDelegate.swift */; };
 		FA71192E2731682F008EABB7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA71192C2731682F008EABB7 /* Main.storyboard */; };
@@ -84,6 +86,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FA0B6F1E275114A2005950EF /* R.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		FA7119232731682F008EABB7 /* Unsplasher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Unsplasher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA7119262731682F008EABB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA7119282731682F008EABB7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -154,6 +157,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA8BB4D727440C0F00CB95DA /* RealmSwift in Frameworks */,
+				FA0B6F22275124A6005950EF /* Rswift in Frameworks */,
 				FA8BB4D527440C0F00CB95DA /* Realm in Frameworks */,
 				FA71195E2731761C008EABB7 /* Moya in Frameworks */,
 			);
@@ -180,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				FA7119582731720B008EABB7 /* .swiftlint.yml */,
+				FA0B6F1E275114A2005950EF /* R.generated.swift */,
 				FA7119252731682F008EABB7 /* Unsplasher */,
 				FA71193C27316833008EABB7 /* UnsplasherTests */,
 				FA71194627316833008EABB7 /* UnsplasherUITests */,
@@ -385,6 +390,7 @@
 			buildConfigurationList = FA71194D27316833008EABB7 /* Build configuration list for PBXNativeTarget "Unsplasher" */;
 			buildPhases = (
 				FA71195627316C1F008EABB7 /* ShellScript */,
+				FAAD991F275101CB00DDE0FF /* ShellScript */,
 				FA71191F2731682F008EABB7 /* Sources */,
 				FA7119202731682F008EABB7 /* Frameworks */,
 				FA7119212731682F008EABB7 /* Resources */,
@@ -398,6 +404,7 @@
 				FA71195D2731761C008EABB7 /* Moya */,
 				FA8BB4D427440C0F00CB95DA /* Realm */,
 				FA8BB4D627440C0F00CB95DA /* RealmSwift */,
+				FA0B6F21275124A6005950EF /* Rswift */,
 			);
 			productName = Unsplasher;
 			productReference = FA7119232731682F008EABB7 /* Unsplasher.app */;
@@ -475,6 +482,7 @@
 			packageReferences = (
 				FA71195C2731761C008EABB7 /* XCRemoteSwiftPackageReference "Moya" */,
 				FA8BB4D327440C0E00CB95DA /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+				FA0B6F20275124A6005950EF /* XCRemoteSwiftPackageReference "R.swift" */,
 			);
 			productRefGroup = FA7119242731682F008EABB7 /* Products */;
 			projectDirPath = "";
@@ -538,6 +546,26 @@
 			shellPath = /bin/sh;
 			shellScript = "PATH=/opt/homebrew/bin:$PATH\nif which swiftlint >/dev/null; then\n  swiftlint --no-cache\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		FAAD991F275101CB00DDE0FF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$TEMP_DIR/rswift-lastrun",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				$SRCROOT/R.generated.swift,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PATH=/opt/homebrew/bin:$PATH\nif which rswift >/dev/null; then\n  rswift generate \"$SRCROOT/R.generated.swift\"\nelse\n  echo \"warning: Rswift not installed\"\nfi\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -583,6 +611,7 @@
 				FA711976273A9460008EABB7 /* FeedPresenter.swift in Sources */,
 				FAAD991B2750F6BE00DDE0FF /* Alertable.swift in Sources */,
 				FA7119A42742DCCC008EABB7 /* FavoritesViewController.swift in Sources */,
+				FA0B6F1F275123B8005950EF /* R.generated.swift in Sources */,
 				FAAD990F274E4DD700DDE0FF /* SettingsManager.swift in Sources */,
 				FA71198B273AE2B4008EABB7 /* Topic.swift in Sources */,
 				FA7119AA2742DD11008EABB7 /* FavoritesModels.swift in Sources */,
@@ -967,6 +996,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		FA0B6F20275124A6005950EF /* XCRemoteSwiftPackageReference "R.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mac-cain13/R.swift.Library";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.4.0;
+			};
+		};
 		FA71195C2731761C008EABB7 /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya.git";
@@ -986,6 +1023,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		FA0B6F21275124A6005950EF /* Rswift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA0B6F20275124A6005950EF /* XCRemoteSwiftPackageReference "R.swift" */;
+			productName = Rswift;
+		};
 		FA71195D2731761C008EABB7 /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FA71195C2731761C008EABB7 /* XCRemoteSwiftPackageReference "Moya" */;

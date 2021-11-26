@@ -82,7 +82,7 @@ extension SettingsTableViewController: UIPickerViewDelegate, UIPickerViewDataSou
     let toolBar = UIToolbar()
     toolBar.sizeToFit()
     let button = UIBarButtonItem(
-      title: NSLocalizedString("done", comment: "done"),
+      title: R.string.localizable.done(),
       style: .plain,
       target: self,
       action: #selector(changeTheme)

@@ -82,7 +82,7 @@ class ShowImageViewController: UIViewController, ShowImageDisplayLogic {
 
     imageView.imageProvider.setImage(from: image.urls?.regularURL)
 
-    let plainAttributedString = NSMutableAttributedString(string: NSLocalizedString("from", comment: "from") + " ")
+    let plainAttributedString = NSMutableAttributedString(string: R.string.localizable.from() + " ")
     let attributedLinkString = NSMutableAttributedString(string: image.owner?.name ?? "Unsplash", attributes: [
       .attachment: image.owner?.unsplashProfile ?? "https://unsplash.com",
       .foregroundColor: UIColor.placeholderText,
