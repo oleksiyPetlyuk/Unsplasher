@@ -18,3 +18,6 @@
 "theme.system" = "Как в системе";
 "theme.light" = "Светлая";
 "theme.dark" = "Темная";
+"success" = "Успешно";
+"oops" = "Уупс";
+"image_was_saved" = "Изображение было сохранено";

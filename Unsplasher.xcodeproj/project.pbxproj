@@ -61,6 +61,8 @@
 		FAAD990D274E4DA400DDE0FF /* UserDefaults+KVO.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAD990C274E4DA400DDE0FF /* UserDefaults+KVO.swift */; };
 		FAAD990F274E4DD700DDE0FF /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAD990E274E4DD700DDE0FF /* SettingsManager.swift */; };
 		FAAD9914274E8F9400DDE0FF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FAAD9916274E8F9400DDE0FF /* Localizable.strings */; };
+		FAAD9919274FA7CE00DDE0FF /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAD9918274FA7CE00DDE0FF /* ImageSaver.swift */; };
+		FAAD991B2750F6BE00DDE0FF /* Alertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAD991A2750F6BE00DDE0FF /* Alertable.swift */; };
 		FADBB5A92747F8A700BA299F /* ImageProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADBB5A82747F8A700BA299F /* ImageProvider.swift */; };
 /* End PBXBuildFile section */
 
@@ -141,6 +143,8 @@
 		FAAD9913274E8F1300DDE0FF /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		FAAD9915274E8F9400DDE0FF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FAAD9917274E8F9F00DDE0FF /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FAAD9918274FA7CE00DDE0FF /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
+		FAAD991A2750F6BE00DDE0FF /* Alertable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alertable.swift; sourceTree = "<group>"; };
 		FADBB5A82747F8A700BA299F /* ImageProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -258,6 +262,7 @@
 				FA7119A22742DBCE008EABB7 /* Favorites */,
 				FAAD9903274D1D2500DDE0FF /* Settings */,
 				FA7119AF2743B4B4008EABB7 /* ScenesModels.swift */,
+				FAAD991A2750F6BE00DDE0FF /* Alertable.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -346,6 +351,7 @@
 				FAAD98FC274BBFD100DDE0FF /* FileIOController.swift */,
 				FA7119AD2742DF99008EABB7 /* LayoutProvider.swift.swift */,
 				FAAD990E274E4DD700DDE0FF /* SettingsManager.swift */,
+				FAAD9918274FA7CE00DDE0FF /* ImageSaver.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -550,6 +556,7 @@
 				FA711972273A93A9008EABB7 /* FeedViewController.swift in Sources */,
 				FA7119642732E805008EABB7 /* Unsplash.swift in Sources */,
 				FA7119A1273D2AB7008EABB7 /* ShowImageRouter.swift in Sources */,
+				FAAD9919274FA7CE00DDE0FF /* ImageSaver.swift in Sources */,
 				FAAD990D274E4DA400DDE0FF /* UserDefaults+KVO.swift in Sources */,
 				FA711999273D2A53008EABB7 /* ShowImageViewController.swift in Sources */,
 				FA7119B02743B4B4008EABB7 /* ScenesModels.swift in Sources */,
@@ -574,6 +581,7 @@
 				FAAD98F9274BBF6D00DDE0FF /* ImageCache.swift in Sources */,
 				FA711974273A9443008EABB7 /* FeedInteractor.swift in Sources */,
 				FA711976273A9460008EABB7 /* FeedPresenter.swift in Sources */,
+				FAAD991B2750F6BE00DDE0FF /* Alertable.swift in Sources */,
 				FA7119A42742DCCC008EABB7 /* FavoritesViewController.swift in Sources */,
 				FAAD990F274E4DD700DDE0FF /* SettingsManager.swift in Sources */,
 				FA71198B273AE2B4008EABB7 /* Topic.swift in Sources */,

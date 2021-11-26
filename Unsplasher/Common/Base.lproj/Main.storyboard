@@ -58,16 +58,16 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="635"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9To-l6-skW" userLabel="Owner View">
-                                <rect key="frame" x="16" y="739" width="382" height="50"/>
+                                <rect key="frame" x="80" y="739" width="318" height="50"/>
                                 <subviews>
                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="From John Doe" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GeG-LD-AdK">
-                                        <rect key="frame" x="208" y="15" width="116" height="20.5"/>
+                                        <rect key="frame" x="144" y="15" width="116" height="20.5"/>
                                         <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                         <color key="textColor" systemColor="placeholderTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="omE-tR-blZ">
-                                        <rect key="frame" x="332" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="268" y="0.0" width="50" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="7Kz-fT-Qfe"/>
                                             <constraint firstAttribute="width" constant="50" id="QYP-l6-Wi3"/>
@@ -84,17 +84,27 @@
                                     <constraint firstAttribute="trailing" secondItem="omE-tR-blZ" secondAttribute="trailing" id="sw5-os-ASM"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PoE-ZV-jxw">
+                                <rect key="frame" x="16" y="748.5" width="48" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="icloud.and.arrow.down" catalog="system"/>
+                                <connections>
+                                    <action selector="saveImageToPhotos:" destination="1Qc-io-XKd" eventType="touchUpInside" id="cgS-TA-oEu"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="7Oq-vR-nHU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="7Oq-vR-nHU" firstAttribute="trailing" secondItem="BYh-Ro-hhl" secondAttribute="trailing" id="AXF-Sh-jLs"/>
                             <constraint firstItem="BYh-Ro-hhl" firstAttribute="leading" secondItem="7Oq-vR-nHU" secondAttribute="leading" id="D4v-45-APm"/>
+                            <constraint firstItem="9To-l6-skW" firstAttribute="leading" secondItem="PoE-ZV-jxw" secondAttribute="trailing" constant="16" id="MFy-Bt-IV1"/>
                             <constraint firstItem="7Oq-vR-nHU" firstAttribute="trailing" secondItem="9To-l6-skW" secondAttribute="trailing" constant="16" id="P4g-fx-vSZ"/>
                             <constraint firstItem="BYh-Ro-hhl" firstAttribute="top" secondItem="7Oq-vR-nHU" secondAttribute="top" id="UOe-Cm-YN5"/>
+                            <constraint firstItem="PoE-ZV-jxw" firstAttribute="leading" secondItem="7Oq-vR-nHU" secondAttribute="leading" constant="16" id="cQA-66-dlP"/>
                             <constraint firstItem="7Oq-vR-nHU" firstAttribute="bottom" secondItem="9To-l6-skW" secondAttribute="bottom" constant="24" id="omj-4Q-OWv"/>
+                            <constraint firstItem="PoE-ZV-jxw" firstAttribute="centerY" secondItem="9To-l6-skW" secondAttribute="centerY" id="pM0-Ag-l18"/>
                             <constraint firstItem="9To-l6-skW" firstAttribute="top" secondItem="BYh-Ro-hhl" secondAttribute="bottom" constant="16" id="pPO-V2-2eV"/>
-                            <constraint firstItem="9To-l6-skW" firstAttribute="leading" secondItem="7Oq-vR-nHU" secondAttribute="leading" constant="16" id="x82-IX-u5k"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="MI1-LN-BvU"/>
@@ -106,7 +116,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1kn-ey-Cab" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1588" y="-663"/>
+            <point key="canvasLocation" x="1586.9565217391305" y="-663.61607142857144"/>
         </scene>
         <!--Favorites View Controller-->
         <scene sceneID="aFa-dd-u68">
@@ -249,6 +259,7 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="gear" catalog="system" width="128" height="119"/>
+        <image name="icloud.and.arrow.down" catalog="system" width="128" height="112"/>
         <image name="photo.fill.on.rectangle.fill" catalog="system" width="128" height="97"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
         <systemColor name="placeholderTextColor">

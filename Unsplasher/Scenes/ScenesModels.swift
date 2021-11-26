@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 // swiftlint:disable nesting
 enum ScenesModels {
@@ -46,6 +47,25 @@ enum ScenesModels {
       struct Response {
         let image: Unsplasher.Image
       }
+    }
+  }
+
+  enum Alert {
+    struct DataModel {
+      let title: String?
+      let message: String?
+      let style: UIAlertController.Style = .alert
+      let actions: [UIAlertAction]?
+    }
+
+    struct ViewModel {
+      let alert: DataModel
+    }
+
+    struct Response {
+      let title: String?
+      let message: String?
+      let actions: [UIAlertAction]?
     }
   }
 }

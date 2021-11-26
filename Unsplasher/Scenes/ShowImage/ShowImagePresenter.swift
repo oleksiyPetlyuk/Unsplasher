@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import UIKit
 
 protocol ShowImagePresentationLogic {
   func presentImage(response: ScenesModels.Image.Fetch.Response)
+
+  func presentAlert(response: ScenesModels.Alert.Response)
 }
 
 class ShowImagePresenter: ShowImagePresentationLogic {
@@ -36,5 +39,15 @@ class ShowImagePresenter: ShowImagePresentationLogic {
     )
 
     viewController?.displayImage(viewModel: .init(image: displayedImage))
+  }
+
+  func presentAlert(response: ScenesModels.Alert.Response) {
+    let alert = ScenesModels.Alert.DataModel(
+      title: response.title,
+      message: response.message,
+      actions: response.actions
+    )
+
+    viewController?.displayAlert(viewModel: .init(alert: alert))
   }
 }

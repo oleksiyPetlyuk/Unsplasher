@@ -10,20 +10,28 @@ import UIKit
 import RealmSwift
 
 protocol ShowImageBusinessLogic {
-  func getImage()
+  func getImage(completion: ((Image?) -> Void)?)
 
   func observeImage()
 
   func openImageOwnerProfile()
 
   func toggleFavorite()
+
+  func saveImageToPhotos()
+}
+
+extension ShowImageBusinessLogic {
+  func getImage(completion: ((Image?) -> Void)? = nil) {
+    return getImage(completion: nil)
+  }
 }
 
 protocol ShowImageDataStore {
   var imageID: Image.ID? { get set }
 }
 
-class ShowImageInteractor: ShowImageBusinessLogic, ShowImageDataStore {
+class ShowImageInteractor: NSObject, ShowImageBusinessLogic, ShowImageDataStore {
   var imageID: Image.ID?
 
   var presenter: ShowImagePresentationLogic?
@@ -55,13 +63,15 @@ class ShowImageInteractor: ShowImageBusinessLogic, ShowImageDataStore {
     self.observationToken = token
   }
 
-  func getImage() {
+  func getImage(completion: ((Image?) -> Void)? = nil) {
     guard let id = imageID else { return }
 
     imagesWorker.fetchImage(with: id) { [weak self] image in
       guard let self = self else { return }
 
       self.presenter?.presentImage(response: .init(image: image))
+
+      completion?(image)
     }
   }
 
@@ -80,5 +90,41 @@ class ShowImageInteractor: ShowImageBusinessLogic, ShowImageDataStore {
     guard let id = imageID else { return }
 
     imagesWorker.toggleFavorite(for: id)
+  }
+
+  func saveImageToPhotos() {
+    getImage { image in
+      guard let image = image else { return }
+
+      image.imageProvider.getUIImage { uiImage in
+        if let uiImage = uiImage {
+          let imageSaver = ImageSaver()
+
+          imageSaver.writeToPhotoAlbum(
+            image: uiImage,
+            completionTarget: self,
+            completionSelector: #selector(self.image(_:didFinishSavingWithError:contextInfo:))
+          )
+        }
+      }
+    }
+  }
+
+  @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+    let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+
+    if let error = error {
+      presenter?.presentAlert(response: .init(
+        title: NSLocalizedString("oops", comment: "Oops"),
+        message: error.localizedDescription,
+        actions: [action]
+      ))
+    } else {
+      presenter?.presentAlert(response: .init(
+        title: NSLocalizedString("success", comment: "Success"),
+        message: NSLocalizedString("image_was_saved", comment: "Image was saved"),
+        actions: [action]
+      ))
+    }
   }
 }

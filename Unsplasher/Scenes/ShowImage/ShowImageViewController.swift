@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol ShowImageDisplayLogic: AnyObject {
+protocol ShowImageDisplayLogic: AnyObject, Alertable {
   func displayImage(viewModel: ScenesModels.Image.ViewModel)
 }
 
@@ -108,5 +108,9 @@ class ShowImageViewController: UIViewController, ShowImageDisplayLogic {
 
   @objc func toggleFavorite() {
     interactor?.toggleFavorite()
+  }
+
+  @IBAction func saveImageToPhotos(_ sender: UIButton) {
+    interactor?.saveImageToPhotos()
   }
 }

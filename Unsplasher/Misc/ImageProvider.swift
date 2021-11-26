@@ -22,7 +22,8 @@ class ImageProvider<Base> {
   }
 }
 
-extension ImageProvider where Base: UIImageView {
+extension ImageProvider {
+  @discardableResult
   private func download(from url: URL, completion: @escaping (Result<UIImage, Error>) -> Void) -> URLSessionDataTask? {
     let cachedData = cache.get(url.absoluteString)
 
@@ -58,7 +59,9 @@ extension ImageProvider where Base: UIImageView {
 
     return dataTask
   }
+}
 
+extension ImageProvider where Base: UIImageView {
   func setImage(from url: URL?, placeholder: UIImage? = nil) {
     guard let url = url else { return }
 
@@ -79,6 +82,26 @@ extension ImageProvider where Base: UIImageView {
   }
 }
 
+extension ImageProvider where Base: Image {
+  func getUIImage(completion: @escaping (UIImage?) -> Void) {
+    guard let urls = base.urls, let url = urls.rawURL else {
+      completion(nil)
+
+      return
+    }
+
+    download(from: url) { result in
+      switch result {
+      case .failure(let error):
+        print(error)
+        completion(nil)
+      case .success(let image):
+        completion(image)
+      }
+    }
+  }
+}
+
 extension ImageProvider {
   enum ImageProviderError: Error {
     case decodingError
@@ -94,3 +117,5 @@ extension ImageProviderCompatible {
 }
 
 extension UIImageView: ImageProviderCompatible {}
+
+extension Image: ImageProviderCompatible {}
