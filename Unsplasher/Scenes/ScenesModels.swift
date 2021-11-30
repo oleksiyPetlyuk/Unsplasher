@@ -68,4 +68,18 @@ enum ScenesModels {
       let actions: [UIAlertAction]?
     }
   }
+
+  enum Loading {
+    struct DataModel {
+      let isActive: Bool
+    }
+
+    struct ViewModel {
+      let loadingIndicator: DataModel
+    }
+
+    struct Response {
+      let isActive: Bool
+    }
+  }
 }

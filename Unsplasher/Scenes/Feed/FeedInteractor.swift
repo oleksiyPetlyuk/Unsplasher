@@ -34,6 +34,8 @@ class FeedInteractor: FeedBusinessLogic, FeedDataStore {
   lazy var feedObservationHandler: (RealmCollectionChange<Results<Image>>) -> Void = { [weak self] changes in
     guard let self = self else { return }
 
+    self.presenter?.presentLoadingIndicator(response: .init(isActive: false))
+
     switch changes {
     case .initial(let results):
       self.presenter?.presentFeed(response: .init(feed: results.map(Image.init)))
@@ -51,6 +53,8 @@ class FeedInteractor: FeedBusinessLogic, FeedDataStore {
   }
 
   func observeFeed() {
+    presenter?.presentLoadingIndicator(response: .init(isActive: true))
+
     imagesWorker.observeFeed(observeHandler: feedObservationHandler) { [weak self] token in
       guard let self = self else { return }
 
@@ -69,6 +73,8 @@ class FeedInteractor: FeedBusinessLogic, FeedDataStore {
   }
 
   func refreshFeed() {
+    presenter?.presentLoadingIndicator(response: .init(isActive: true))
+
     imagesWorker.fetchFeed()
   }
 }

@@ -9,6 +9,8 @@ import UIKit
 
 protocol ShowImageDisplayLogic: AnyObject, Alertable {
   func displayImage(viewModel: ScenesModels.Image.ViewModel)
+
+  func displayLoadingIndicator(viewModel: ScenesModels.Loading.ViewModel)
 }
 
 class ShowImageViewController: UIViewController, ShowImageDisplayLogic {
@@ -18,6 +20,19 @@ class ShowImageViewController: UIViewController, ShowImageDisplayLogic {
   @IBOutlet weak var imageView: UIImageView!
   @IBOutlet weak var ownerLabel: UILabel!
   @IBOutlet weak var ownerImage: UIImageView!
+
+  lazy var loadingIndicator: LoadingIndicator = {
+    let loadingIndicator = LoadingIndicator(frame: view.bounds)
+    view.addSubview(loadingIndicator)
+
+    loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+    loadingIndicator.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+    loadingIndicator.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+    loadingIndicator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+    loadingIndicator.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+
+    return loadingIndicator
+  }()
 
   // MARK: - Object lifecycle
 
@@ -100,6 +115,12 @@ class ShowImageViewController: UIViewController, ShowImageDisplayLogic {
     ownerImage.layer.cornerRadius = 25
     ownerImage.layer.borderColor = UIColor.systemBackground.cgColor
     ownerImage.layer.borderWidth = 1
+  }
+
+  // MARK: - Loading indicator
+
+  func displayLoadingIndicator(viewModel: ScenesModels.Loading.ViewModel) {
+    viewModel.loadingIndicator.isActive ? loadingIndicator.startAnimating() : loadingIndicator.stopAnimating()
   }
 
   @objc func openOwnerProfile(_ sender: UITapGestureRecognizer) {

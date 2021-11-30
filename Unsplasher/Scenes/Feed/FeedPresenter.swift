@@ -9,6 +9,8 @@ import Foundation
 
 protocol FeedPresentationLogic {
   func presentFeed(response: Feed.Fetch.Response)
+
+  func presentLoadingIndicator(response: ScenesModels.Loading.Response)
 }
 
 class FeedPresenter: FeedPresentationLogic {
@@ -36,5 +38,9 @@ class FeedPresenter: FeedPresentationLogic {
     }
 
     viewController?.displayFeed(viewModel: .init(feed: feed))
+  }
+
+  func presentLoadingIndicator(response: ScenesModels.Loading.Response) {
+    viewController?.displayLoadingIndicator(viewModel: .init(loadingIndicator: .init(isActive: response.isActive)))
   }
 }

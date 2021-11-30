@@ -9,6 +9,8 @@ import UIKit
 
 protocol FeedDisplayLogic: AnyObject {
   func displayFeed(viewModel: Feed.Fetch.ViewModel)
+
+  func displayLoadingIndicator(viewModel: ScenesModels.Loading.ViewModel)
 }
 
 class FeedViewController: UIViewController, FeedDisplayLogic {
@@ -18,6 +20,19 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
 
   var interactor: FeedBusinessLogic?
   var router: (NSObjectProtocol & FeedRoutingLogic & FeedDataPassing)?
+
+  lazy var loadingIndicator: LoadingIndicator = {
+    let loadingIndicator = LoadingIndicator(frame: view.bounds)
+    view.addSubview(loadingIndicator)
+
+    loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+    loadingIndicator.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+    loadingIndicator.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+    loadingIndicator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+    loadingIndicator.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+
+    return loadingIndicator
+  }()
 
   lazy private var doubleTapGesture: UITapGestureRecognizer = {
     let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTapCollectionView))
@@ -183,6 +198,12 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
 
   @objc func refreshFeed() {
     interactor?.refreshFeed()
+  }
+
+  // MARK: - Loading indicator
+
+  func displayLoadingIndicator(viewModel: ScenesModels.Loading.ViewModel) {
+    viewModel.loadingIndicator.isActive ? loadingIndicator.startAnimating() : loadingIndicator.stopAnimating()
   }
 }
 

@@ -93,6 +93,8 @@ class ShowImageInteractor: NSObject, ShowImageBusinessLogic, ShowImageDataStore 
   }
 
   func saveImageToPhotos() {
+    presenter?.presentLoadingIndicator(response: .init(isActive: true))
+
     getImage { image in
       guard let image = image else { return }
 
@@ -112,6 +114,7 @@ class ShowImageInteractor: NSObject, ShowImageBusinessLogic, ShowImageDataStore 
 
   @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
     let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+    presenter?.presentLoadingIndicator(response: .init(isActive: false))
 
     if let error = error {
       presenter?.presentAlert(response: .init(

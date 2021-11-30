@@ -12,6 +12,8 @@ protocol ShowImagePresentationLogic {
   func presentImage(response: ScenesModels.Image.Fetch.Response)
 
   func presentAlert(response: ScenesModels.Alert.Response)
+
+  func presentLoadingIndicator(response: ScenesModels.Loading.Response)
 }
 
 class ShowImagePresenter: ShowImagePresentationLogic {
@@ -49,5 +51,9 @@ class ShowImagePresenter: ShowImagePresentationLogic {
     )
 
     viewController?.displayAlert(viewModel: .init(alert: alert))
+  }
+
+  func presentLoadingIndicator(response: ScenesModels.Loading.Response) {
+    viewController?.displayLoadingIndicator(viewModel: .init(loadingIndicator: .init(isActive: response.isActive)))
   }
 }
