@@ -13,11 +13,17 @@ protocol ImageCache {
   func set(_ data: Data, for key: String)
 }
 
-struct DefaultImageCache: ImageCache {
+class DefaultImageCache: ImageCache {
+  let dataManager: DataIOManager
+
+  init(dataManager: DataIOManager) {
+    self.dataManager = dataManager
+  }
+
   func get(_ key: String) -> Data? {
     guard let fileName = key.sha256 else { return nil }
 
-    return FileIOController.read(fromDocumentNamed: fileName)
+    return dataManager.read(fromDocumentNamed: fileName)
   }
 
   func set(_ data: Data, for key: String) {
@@ -25,8 +31,8 @@ struct DefaultImageCache: ImageCache {
 
     let queue = DispatchQueue(label: "images_cache")
 
-    CallbackQueue.dispatch(queue).execute {
-      try? FileIOController.write(data, toDocumentNamed: fileName)
+    CallbackQueue.dispatch(queue).execute { [weak self] in
+      try? self?.dataManager.write(data, toDocumentNamed: fileName)
     }
   }
 }

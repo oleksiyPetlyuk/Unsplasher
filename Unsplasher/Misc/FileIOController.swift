@@ -7,10 +7,16 @@
 
 import Foundation
 
-enum FileIOController {
-  static let manager = FileManager.default
+protocol DataIOManager {
+  func read(fromDocumentNamed documentName: String) -> Data?
 
-  static func write(_ data: Data, toDocumentNamed documentName: String) throws {
+  func write(_ data: Data, toDocumentNamed documentName: String) throws
+}
+
+class FileIOController: DataIOManager {
+  private let manager = FileManager.default
+
+  func write(_ data: Data, toDocumentNamed documentName: String) throws {
     let cachesFolder = try manager
       .url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
       .appendingPathComponent("ImagesCaches")
@@ -28,7 +34,7 @@ enum FileIOController {
     try data.write(to: fileURL, options: .atomic)
   }
 
-  static func read(fromDocumentNamed documentName: String) -> Data? {
+  func read(fromDocumentNamed documentName: String) -> Data? {
     let url = try? manager
       .url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
       .appendingPathComponent("ImagesCaches")

@@ -14,11 +14,16 @@ class ImageProvider<Base> {
   let session: URLSession
   let cache: ImageCache
 
-  init(_ base: Base, responseQueue: DispatchQueue = .main, session: URLSession = .shared) {
+  init(_ base: Base, responseQueue: DispatchQueue = .main, session: URLSession = .shared, cache: ImageCache? = nil) {
     self.base = base
     self.responseQueue = responseQueue
     self.session = session
-    self.cache = DefaultImageCache()
+
+    if let cache = cache {
+      self.cache = cache
+    } else {
+      self.cache = DefaultImageCache(dataManager: FileIOController())
+    }
   }
 }
 
